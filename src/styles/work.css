@@ -1,0 +1,11 @@
+/* =========================================================
+   SECTION WRAPPERS: Featured work and Certifications.
+   ========================================================= */
+
+.work { padding: var(--section-space) var(--pad); }
+
+.certs { background: var(--sand); padding: var(--section-space) var(--pad); }
+.certs .card { background: var(--cream); border-color: #e8d8b4; }
+
+/* Certificates are documents, so show the whole page instead of cropping it */
+.certs .card-media > * { object-fit: contain; background: #fff; }

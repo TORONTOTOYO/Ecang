@@ -1,0 +1,41 @@
+/* =========================================================
+   CAROUSEL: used when a section has more than 3 cards.
+   Swipe on touch screens, or use the arrows and dots.
+   ========================================================= */
+
+.carousel-track {
+  display: flex;
+  gap: var(--gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 14px 2px 24px; /* room for the card hover lift and shadow */
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track > * { scroll-snap-align: start; }
+
+.carousel-controls { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 8px; }
+
+.arrow-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.arrow-btn:hover:not(:disabled) { background: var(--ink); color: var(--cream); }
+.arrow-btn:disabled { opacity: 0.3; cursor: default; }
+
+.dots { display: flex; gap: 10px; align-items: center; }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 0; padding: 0; background: #cdbd9a; cursor: pointer; }
+.dot.active { width: 28px; border-radius: 999px; background: var(--ink); }
+
+/* On phones the next card peeks in, so people know to swipe */
+@media (max-width: 640px) {
+  .carousel-track { --cols: 1.12; --gap: 16px; }
+}

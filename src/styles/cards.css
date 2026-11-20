@@ -1,0 +1,67 @@
+/* =========================================================
+   CARDS: shared by Featured work and Certifications.
+   - .card-row lines cards up (1, 2, or 3 cards stay centered)
+   - .card is one card, with the hover effect
+   ========================================================= */
+
+/* How many cards fit in one row. The carousel uses the same variables. */
+.card-row,
+.carousel-track { --cols: 3; --gap: 24px; }
+
+.card-row { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--gap); }
+.card-row > *,
+.carousel-track > * {
+  flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  min-width: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #fffdf7;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Photo area. The photo zooms slowly on hover, clipped by this box. */
+.card-media { overflow: hidden; }
+.card-media > * {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card-body { display: flex; flex-direction: column; align-items: flex-start; flex: 1; padding: 26px; }
+.card-title { font-size: 22px; line-height: 1.25; }
+.card-body .pill { margin-top: 16px; }
+.card-text { margin-top: 14px; color: var(--mute); font-size: 16px; line-height: 1.6; }
+.card-actions { margin-top: auto; padding-top: 22px; }
+
+/* Hover effect: lift, shadow, gold border, photo zoom.
+   Only on devices with a mouse. Keyboard focus gets the same look. */
+@media (hover: hover) {
+  .card:hover,
+  .card:focus-within {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 40px rgba(35, 28, 51, 0.14);
+    border-color: var(--amber);
+  }
+  .card:hover .card-media > *,
+  .card:focus-within .card-media > * { transform: scale(1.06); }
+}
+
+@media (max-width: 1000px) {
+  .card-row, .carousel-track { --cols: 2; }
+}
+@media (max-width: 640px) {
+  .card-row { --cols: 1; }
+  .card-body { padding: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card-media > * { transition: none; }
+}

@@ -1,0 +1,85 @@
+/* =========================================================
+   HERO: greeting, intro, buttons, and portrait.
+   Desktop: text on the left, portrait on the right.
+   Tablet and phone: portrait on top, everything centered.
+   ========================================================= */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  align-items: center;
+  padding: 40px var(--pad) var(--section-space);
+}
+.hero h1 {
+  font-family: var(--font-accent);
+  font-size: clamp(42px, 6.6vw, 84px);
+  line-height: 1.02;
+  letter-spacing: -1.5px;
+}
+.hero h1 em { color: var(--dusk); font-weight: 500; }
+.role { margin-top: 22px; font: 500 18px var(--font-heading); color: var(--dusk); }
+.intro { margin-top: 14px; font-size: 19px; line-height: 1.6; color: var(--mute); max-width: 520px; }
+.hero-buttons { display: flex; gap: 16px; margin-top: 36px; flex-wrap: wrap; }
+
+/* ---------- Portrait ----------
+   --w is the portrait width. The height and the arch shape follow it. */
+.portrait {
+  --w: 420px;
+  position: relative;
+  width: var(--w);
+  height: calc(var(--w) * 1.286);
+  margin-left: auto;
+}
+.portrait-frame,
+.portrait-photo {
+  position: absolute;
+  border-radius: calc(var(--w) / 2) calc(var(--w) / 2) 24px 24px;
+}
+.portrait-frame { inset: 30px -30px -30px 30px; background: var(--amber); } /* gold shape behind */
+.portrait-photo {
+  inset: 0;
+  background: linear-gradient(180deg, #cfc3ea, #ebd3e0 60%, #f6d9b8);
+  overflow: hidden;
+}
+.portrait-photo img,
+.portrait-photo svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Small note shown only while the portrait file is missing */
+.portrait-note {
+  position: absolute;
+  left: -30px;
+  bottom: 50px;
+  background: var(--cream);
+  border-radius: 16px;
+  padding: 14px 20px;
+  box-shadow: 0 8px 24px rgba(35, 28, 51, 0.15);
+  font-size: 15px;
+  font-weight: 600;
+}
+.portrait-note small { display: block; font-weight: 400; color: var(--mute); font-size: 13px; }
+
+/* ---------- Tablet and phone ---------- */
+@media (max-width: 1000px) {
+  .hero { grid-template-columns: 1fr; gap: 56px; padding-top: 24px; text-align: center; }
+  .intro { margin-inline: auto; }
+  .hero-buttons { justify-content: center; }
+
+  /* Portrait goes on top and is centered. The gold frame becomes an even ring. */
+  .portrait { --w: min(320px, 72vw); order: -1; margin: 12px auto 0; }
+  .portrait-frame { inset: -12px; border-radius: calc(var(--w) / 2 + 12px) calc(var(--w) / 2 + 12px) 36px 36px; }
+  .portrait-note {
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 88%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: clamp(42px, 13vw, 56px); }
+  .role { font-size: 16px; }
+  .intro { font-size: 17px; }
+}

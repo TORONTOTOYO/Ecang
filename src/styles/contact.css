@@ -1,0 +1,41 @@
+/* =========================================================
+   CONTACT: dark card with a message and contact details.
+   ========================================================= */
+
+.contact {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin: 0 var(--pad) var(--section-space);
+  padding: 64px;
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: 32px;
+}
+.contact h2 { font-size: 40px; margin-bottom: 14px; }
+.contact p { color: #cfc8e0; font-size: 18px; line-height: 1.55; max-width: 460px; }
+.contact .btn { margin-top: 28px; }
+
+.info div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid #43395e;
+  font-size: 18px;
+}
+.info dt { color: #a99fc4; }
+.info dd { text-align: right; overflow-wrap: anywhere; }
+
+@media (max-width: 1000px) {
+  .contact { grid-template-columns: 1fr; gap: 36px; padding: 44px; }
+}
+@media (max-width: 640px) {
+  .contact { padding: 32px 24px; border-radius: 24px; }
+  .contact h2 { font-size: 30px; }
+  .contact p { font-size: 16px; }
+  .contact .btn { width: 100%; text-align: center; }
+  .info div { flex-direction: column; gap: 2px; font-size: 16px; }
+  .info dd { text-align: left; }
+}

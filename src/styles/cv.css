@@ -1,0 +1,68 @@
+/* =========================================================
+   CV PAGE: ATS-friendly (one column, plain text, Arial,
+   no tables, photos, or icons). Also controls how the PDF prints.
+   ========================================================= */
+
+.cv-page { background: var(--sand); min-height: 100vh; padding: 28px 20px 70px; }
+.cv-toolbar {
+  max-width: 794px;
+  margin: 0 auto 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.cv-back { font: 500 15px var(--font-heading); }
+.cv-back:hover { color: var(--dusk); }
+.cv-hint { max-width: 794px; margin: 0 auto 18px; color: var(--mute); font-size: 14px; line-height: 1.5; }
+
+/* The paper */
+.cv-sheet {
+  max-width: 794px;
+  margin: 0 auto;
+  padding: 56px 60px;
+  background: #fff;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  box-shadow: 0 10px 40px rgba(35, 28, 51, 0.12);
+}
+.cv-sheet h1,
+.cv-sheet h2 { font-family: Arial, Helvetica, sans-serif; letter-spacing: normal; color: #000; }
+.cv-sheet h1 { font-size: 28px; font-weight: 700; line-height: 1.2; }
+.cv-headline { font-size: 16px; margin-top: 2px; }
+.cv-sheet h2 {
+  margin: 24px 0 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #000;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.cv-sheet p { margin-top: 4px; }
+.cv-sheet ul { margin: 6px 0 0 20px; list-style: disc; }
+.cv-sheet li { margin-top: 3px; }
+.cv-entry { margin-top: 12px; }
+.cv-entry:first-of-type { margin-top: 0; }
+.cv-row { display: flex; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap; }
+
+@media (max-width: 640px) {
+  .cv-page { padding: 20px 12px 50px; }
+  .cv-sheet { padding: 28px 20px; font-size: 13.5px; }
+  .cv-sheet h1 { font-size: 24px; }
+}
+
+/* ---------- Printing / Save as PDF ---------- */
+@page { size: A4; margin: 14mm 16mm; }
+@media print {
+  body { background: #fff; }
+  .cv-toolbar, .cv-hint { display: none; }
+  .cv-page { background: #fff; padding: 0; min-height: 0; }
+  .cv-sheet { box-shadow: none; max-width: none; padding: 0; font-size: 11pt; }
+  .cv-sheet h1 { font-size: 22pt; }
+  .cv-entry { break-inside: avoid; }
+  .cv-sheet h2 { break-after: avoid; }
+}

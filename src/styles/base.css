@@ -1,0 +1,117 @@
+/* =========================================================
+   BASE: colors, fonts, spacing, and pieces used everywhere.
+   Change the values in :root to restyle the whole site.
+   ========================================================= */
+
+:root {
+  /* Colors */
+  --cream: #fff8ea;   /* page background */
+  --sand: #f6e7c8;    /* tinted sections */
+  --amber: #e9a53b;   /* gold accent */
+  --ink: #231c33;     /* text and dark buttons */
+  --dusk: #4a3d78;    /* violet accent */
+  --mute: #6b6280;    /* softer grey text */
+  --line: #ecdfc3;    /* card borders */
+
+  /* Fonts */
+  --font-heading: "Poppins", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-accent: "Lora", Georgia, serif;
+
+  /* Spacing */
+  --pad: 80px;            /* left and right page margin */
+  --section-space: 100px; /* space above and below each section */
+}
+
+@media (max-width: 1000px) {
+  :root { --pad: 40px; --section-space: 80px; }
+}
+@media (max-width: 640px) {
+  :root { --pad: 20px; --section-space: 60px; }
+}
+
+/* ---------- Reset ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+img { max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+button { font-family: inherit; }
+h1, h2, h3 { font-family: var(--font-heading); font-weight: 600; letter-spacing: -0.02em; }
+:focus-visible { outline: 3px solid var(--dusk); outline-offset: 3px; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  font: 500 15px var(--font-heading);
+  background: var(--ink);
+  color: var(--cream);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 14px 30px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn svg { margin-left: 8px; vertical-align: -2px; }
+.btn-sm { padding: 10px 24px; }
+.btn-outline { background: transparent; color: var(--ink); }
+.btn-amber { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+
+/* ---------- Section headings ---------- */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.section-title { font-size: 34px; line-height: 1.15; }
+.section-head p { max-width: 420px; color: var(--mute); font-size: 18px; line-height: 1.55; }
+
+@media (max-width: 640px) {
+  .section-title { font-size: 28px; }
+  .section-head { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 28px; }
+}
+
+/* ---------- Small text styles ---------- */
+.pill {
+  display: inline-block;
+  background: var(--sand);
+  color: var(--ink);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font: 500 13px var(--font-heading);
+}
+.subtitle { font: italic 500 19px var(--font-accent); color: var(--dusk); margin-top: 4px; }
+.muted { color: var(--mute); font-size: 16px; line-height: 1.5; }
+.date-tag { font-size: 14px; font-weight: 600; color: var(--dusk); }
+
+/* ---------- Image placeholders (shown when a photo file is missing) ---------- */
+.ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.tint-a { background-image: linear-gradient(135deg, #b9a7d8, #e6c3c8); }
+.tint-b { background-image: linear-gradient(135deg, #f0c58a, #d88f6b); }
+.tint-c { background-image: linear-gradient(135deg, #3c3560, #7b6bb0); }
+.tint-d { background-image: linear-gradient(135deg, #e7b9a3, #b98fa8); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn { transition: none; }
+}
