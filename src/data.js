@@ -18,7 +18,7 @@ export const profile = {
 
 export const about = {
   title: "Who am I?",
-  text: "Write two or three short sentences here: who you are, what you do, and what you want to work on next.",
+  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 };
 
 export const background = [
@@ -96,7 +96,7 @@ export const projects = [
 // Add your certificates. "image" is a photo or scan of the certificate.
 export const certifications = {
   title: "Certifications",
-  blurb: "Trainings, workshops, and awards. Open any card to view the full certificate.",
+  blurb: "Trainings, workshops, and awards.",
   items: [
     {
       title: "Add certificate title",
