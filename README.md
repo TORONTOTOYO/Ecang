@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Erica Portfolio (React + Vite)
 
 ## Run it on your computer
@@ -106,3 +107,6 @@ The code does not slow down as you add content. The thing that can is **image si
     npm run build
 
 The finished site is created in the `dist` folder. Upload it to Netlify, Vercel, or GitHub Pages.
+=======
+# Ecang
+>>>>>>> 009b831ac95ed2d2b4349ca64329e836bccccb5b
