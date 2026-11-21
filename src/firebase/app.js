@@ -16,4 +16,4 @@ export const isFirebaseConfigured = Boolean(firebaseConfig.apiKey && firebaseCon
 export const app = isFirebaseConfigured ? initializeApp(firebaseConfig) : null;
 
 // The only email allowed to use the admin panel
-export const adminEmail = env.VITE_ADMIN_EMAIL || "";
+export const adminEmail = env.VITE_ADMIN_EMAIL || "caguioaericamae@gmail.com";
