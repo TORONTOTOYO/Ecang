@@ -1,11 +1,12 @@
 import { useState, useCallback } from "react";
-import { work, projects } from "../data.js";
+import { useContent } from "../content/ContentContext.jsx";
 import SafeImage from "./SafeImage.jsx";
 import CardList from "./CardList.jsx";
 import Modal from "./Modal.jsx";
 import Gallery from "./Gallery.jsx";
 
 export default function Work() {
+  const { work, projects } = useContent();
   const [openId, setOpenId] = useState(null); // project shown in the pop-up window
   const close = useCallback(() => setOpenId(null), []);
 

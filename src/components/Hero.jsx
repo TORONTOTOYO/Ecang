@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CvLink from "./CvLink.jsx";
-import { profile } from "../data.js";
+import { useContent } from "../content/ContentContext.jsx";
 
 export default function Hero() {
+  const { profile } = useContent();
   // If the portrait file is missing, show a simple drawing instead
   const [portraitMissing, setPortraitMissing] = useState(!profile.portrait);
+  useEffect(() => setPortraitMissing(!profile.portrait), [profile.portrait]);
 
   return (
     <section id="home" className="hero">

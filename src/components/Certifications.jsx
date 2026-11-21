@@ -1,10 +1,11 @@
 import { useState, useCallback } from "react";
-import { certifications } from "../data.js";
+import { useContent } from "../content/ContentContext.jsx";
 import SafeImage from "./SafeImage.jsx";
 import CardList from "./CardList.jsx";
 import Modal from "./Modal.jsx";
 
 export default function Certifications() {
+  const { certifications } = useContent();
   const { title, blurb, items } = certifications;
   const [openIndex, setOpenIndex] = useState(null); // certificate shown in the pop-up window
   const close = useCallback(() => setOpenIndex(null), []);

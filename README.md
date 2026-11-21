@@ -1,112 +1,117 @@
-<<<<<<< HEAD
-# Erica Portfolio (React + Vite)
+# Erica Portfolio (React + Vite + Firebase)
 
-## Run it on your computer
+The website only **displays** content. The content lives in **Firebase**, and you change it
+from a private **admin panel** at `/#/admin`: edit text, add or delete projects and
+certificates, upload photos, and update your CV. Nobody needs to touch the code.
+
+    Visitors  -->  website  -->  reads content from Firebase (Firestore)
+    Admin     -->  /#/admin -->  logs in (Firebase Auth) --> saves content + uploads photos (Storage)
+
+## 1. Run it on your computer
 
 1. Install Node.js (version 18 or newer) from https://nodejs.org
-2. Open a terminal in this folder and run:
+2. In this folder run:
 
        npm install
        npm run dev
 
-3. Your browser opens at http://localhost:5173
+3. Open http://localhost:5173
 
-## Where to change things
+Without Firebase the site works too, using the sample text in `src/content/defaultContent.js`.
 
-| I want to change...                          | Open this file                |
-| -------------------------------------------- | ----------------------------- |
-| My text, projects, certificates, CV, contact | `src/data.js`                 |
-| My photos                                    | `public/images/` (see below)  |
-| Colors, fonts, page margins                  | top of `src/styles/base.css`  |
-| How one section looks                        | the matching file in `src/styles/` |
-| How one section is built                     | the matching file in `src/components/` |
-| How long the loading screen shows            | `LOADING_TIME` in `src/App.jsx` |
+## 2. Set up Firebase (one time, about 10 minutes)
 
-### Style files (`src/styles/`)
+1. Go to https://console.firebase.google.com and click **Add project**.
+2. **Add a web app**: Project overview > the `</>` icon > give it a name > Register.
+   Copy the `firebaseConfig` values shown.
+3. In this folder, copy `.env.example` to a new file named `.env` and paste the values:
 
-Each file styles one part of the page and holds its own phone and tablet rules at the bottom.
+       VITE_FIREBASE_API_KEY=...
+       VITE_FIREBASE_AUTH_DOMAIN=...
+       (and so on)
 
-    base.css       colors, fonts, buttons, small shared pieces
-    nav.css        logo and menu (hamburger on phones)
-    hero.css       greeting and portrait
-    about.css      "Who am I?" and the timeline
-    cards.css      project and certificate cards, including the hover effect
-    carousel.css   the carousel
-    work.css       Featured work and Certifications sections
-    modal.css      pop-up windows and photo gallery
-    contact.css    contact card
-    cv.css         CV page and PDF printing
-    loader.css     loading screen
+   Then stop and restart `npm run dev`.
+4. **Authentication**: Build > Authentication > Get started > Sign-in method > turn on
+   **Email/Password**. Then open the **Users** tab > **Add user** and create your admin
+   email and password. Copy the **User UID** shown in the list. Put that same email in
+   `.env` as `VITE_ADMIN_EMAIL=`.
+   Also, if you see it, turn off new sign-ups so nobody else can create an account:
+   Authentication > Settings > User actions > untick **Enable create (sign-up)**.
+5. **Firestore**: Build > Firestore Database > Create database (production mode).
+   Open **Rules**, paste the contents of `firestore.rules`, replace `PASTE_ADMIN_UID_HERE`
+   with your User UID, and press **Publish**.
+6. **Storage (for photo uploads)**: Build > Storage > Get started. Open **Rules**, paste the
+   contents of `storage.rules` with your User UID, and press **Publish**.
+   Note: Firebase currently requires the Blaze (pay as you go) plan to use Storage. It has a
+   free monthly allowance that a portfolio will normally stay within, but check the Firebase
+   pricing page. If you prefer not to use Storage, skip this step and paste image links
+   (or use files in `public/images/`) in the admin panel instead.
 
-### Component files (`src/components/`)
+### Only one admin
 
-    Nav, Hero, About, Work, Certifications, Contact   the sections, top to bottom
-    CardList      cards in a row, or a carousel when there are more than 3
-    Carousel      the carousel itself
-    Modal         the pop-up window
-    Gallery       the photo gallery in the project pop-up
-    SafeImage     shows a placeholder when a photo file is missing
-    CvPage        the CV page
-    CvLink        the "CV" button
-    Loader        the loading screen
+Three layers keep everyone else out:
+1. You create the single admin account yourself, and the login page has no sign-up.
+2. The admin page signs out any email that is not `VITE_ADMIN_EMAIL`.
+3. The Firebase rules only let your admin User UID change content or upload photos.
+   This is the real protection. Even if someone got into the admin page, saving would fail.
 
-## Where to put your images
+## 3. Use the admin panel
 
-All images go in `public/images/`:
+1. Open http://localhost:5173/#/admin and log in with the admin email and password.
+2. Pick a tab: **Home and About**, **Projects**, **Certifications**, **CV**, **Contact**, **Settings**.
+3. Add, edit, reorder (arrows), or delete items. Click an item's name to open it.
+4. For photos, press **Upload photo** (photos are made smaller automatically) or paste an image link.
+5. Press **Save changes**. The website updates right away for new visitors.
 
-    public/images/
-      portrait/           erica.jpg
-      projects/
-        edel/             cover.jpg, 1.jpg, 2.jpg, 3.jpg, 4.jpg
-        project-2/        cover.jpg, 1.jpg, 2.jpg, 3.jpg
-        project-3/        cover.jpg, 1.jpg, 2.jpg, 3.jpg
-      certificates/       cert-1.jpg, cert-2.jpg, cert-3.jpg
+The first time, the editor shows the sample content. Replace it with yours and press Save.
+There is no link to the admin page on the website. Keep the address to yourself;
+the real protection is your login plus the Firebase rules.
 
-Save a file with the same name and refresh the page: it appears automatically.
-If a file is missing, the site shows a colored placeholder instead.
-Using .png or a different file name? Change the path in `src/data.js`.
-
-## Adding or removing projects and certificates
-
-Copy or delete a block in the `projects` or `certifications` list in `src/data.js`.
-- 1 to 3 cards stay centered in a row
-- More than 3 becomes a swipeable carousel (change the number with `carouselAfter`)
-- If a list is empty, that section and its menu link are hidden
-
-## CV page
-
-The **CV** button in the hero opens a CV page at `http://localhost:5173/#/cv`.
-**Download PDF** opens the print window: choose "Save as PDF" and turn off "Headers and footers".
-
-The CV is built from `src/data.js`:
-- `cv`: headline, summary, experience, skills, languages, PDF file name
-- `background`: shown as Education
-- `certifications`: shown as Certifications
-- `contact`: shown under your name
-
-The layout is ATS-friendly: one column, standard section names, Arial text, and no tables, photos, or icons.
-Tips: use real dates, start each bullet with an action verb, and use keywords from the job post.
-
-## Keeping the site fast
-
-The code does not slow down as you add content. The thing that can is **image size**.
-
-- Compress photos before adding them (free tools: squoosh.app or tinypng.com).
-  Good targets: portrait about 900px wide and under 200 KB; project covers about
-  1200px wide and under 250 KB; gallery photos about 1600px wide and under 400 KB;
-  certificates under 300 KB. WebP or JPG work best.
-- Do not use phone or camera originals (often 3 to 10 MB each).
-- Publish with `npm run build`, not `npm run dev`. The build makes the code smaller and faster.
-- Keep the `package-lock.json` file that `npm install` creates. It locks the library
-  versions so the site behaves the same later.
-- Photos load only when they are about to be seen, and the carousel only does work
-  when it moves, so adding more projects is fine.
-
-## Build for publishing
+## 4. Publishing
 
     npm run build
 
-The finished site is created in the `dist` folder. Upload it to Netlify, Vercel, or GitHub Pages.
-=======
-# Ecang
->>>>>>> 009b831ac95ed2d2b4349ca64329e836bccccb5b
+Upload the `dist` folder to Netlify, Vercel, Firebase Hosting, or GitHub Pages.
+Add your `.env` values in the host's settings (environment variables), and add your website
+address in Firebase: Authentication > Settings > **Authorized domains**.
+
+## Where to change things in the code
+
+| I want to change...                      | Open this file                         |
+| ---------------------------------------- | -------------------------------------- |
+| Colors, fonts, page margins              | top of `src/styles/base.css`           |
+| How one section looks                    | the matching file in `src/styles/`     |
+| How one section is built                 | the matching file in `src/components/` |
+| What the admin panel can edit            | `src/admin/sections/`                  |
+| The starting (sample) content            | `src/content/defaultContent.js`        |
+| How long the loading screen shows        | `LOADING_TIME` in `src/App.jsx`        |
+
+### Folders
+
+    src/
+      components/   the website sections (Nav, Hero, About, Work, Certifications, Contact, CV...)
+      content/      loads the content: defaultContent.js, contentService.js (Firebase), ContentContext.jsx
+      firebase/     app.js (connects to Firebase using .env)
+      admin/        the admin panel: AdminPage, Login, fields, sections/
+      styles/       one CSS file per part of the page (admin.css is only for the admin)
+
+### How the content is stored
+
+All content is one Firestore document: `content/site`. Every visit is one read.
+Returning visitors see a saved copy instantly while the newest content loads in the background.
+To add a new editable field: add it to `defaultContent.js`, add an input for it in the matching
+file in `src/admin/sections/`, and show it in the matching component.
+
+## Keeping the site fast
+
+- Photos uploaded through the admin panel are resized (max 1600px wide) and compressed.
+- The admin panel and the login code are loaded only on `/#/admin`, not for visitors.
+- Photos load only when they are about to be seen.
+- Publish with `npm run build`, not `npm run dev`.
+- Keep the `package-lock.json` created by `npm install`.
+
+## The CV page
+
+The **CV** button opens `/#/cv`. **Download PDF** opens the print window: choose
+"Save as PDF". The CV is built from the content you edit in the admin panel and uses an
+ATS-friendly layout (one column, plain text, standard headings).

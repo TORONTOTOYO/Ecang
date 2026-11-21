@@ -1,6 +1,7 @@
-import { contact } from "../data.js";
+import { useContent } from "../content/ContentContext.jsx";
 
 export default function Contact() {
+  const { contact } = useContent();
   return (
     <section id="contact" className="contact">
       <div>

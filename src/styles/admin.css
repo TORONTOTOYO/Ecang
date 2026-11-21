@@ -1,0 +1,98 @@
+/* =========================================================
+   ADMIN PANEL (#/admin). Loaded only on the admin page.
+   ========================================================= */
+
+.adm { min-height: 100vh; background: var(--sand); font-family: var(--font-body); }
+.adm-center { display: grid; place-items: center; padding: 24px; }
+
+/* ---------- Top bar ---------- */
+.adm-top { position: sticky; top: 0; z-index: 20; background: var(--cream); border-bottom: 1px solid var(--line); }
+.adm-top-inner {
+  max-width: 960px; margin: 0 auto; padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.adm-brand { display: flex; align-items: center; gap: 12px; }
+.adm-brand strong { display: block; font: 600 16px var(--font-heading); }
+.adm-brand small { color: var(--mute); font-size: 13px; }
+.adm-brand .logo { width: 40px; height: 40px; font-size: 20px; }
+.adm-top-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.adm-top .btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+
+.adm-status { font-size: 14px; color: var(--mute); }
+.adm-status.ok { color: #1f7a4d; }
+.adm-status.error { color: #b3261e; }
+
+.adm-tabs { max-width: 960px; margin: 0 auto; padding: 0 20px 12px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.adm-tab {
+  flex: none; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px;
+  background: transparent; font: 500 14px var(--font-heading); color: var(--ink); cursor: pointer;
+}
+.adm-tab:hover { background: var(--sand); }
+.adm-tab.active { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+
+/* ---------- Page ---------- */
+.adm-main { max-width: 960px; margin: 0 auto; padding: 28px 20px 80px; display: flex; flex-direction: column; gap: 24px; }
+.adm-panel { background: var(--cream); border: 1px solid var(--line); border-radius: 20px; padding: 28px; }
+.adm-panel h1 { font-size: 26px; }
+.adm-panel h2 { font-size: 20px; }
+.adm-hint { margin-top: 6px; color: var(--mute); font-size: 15px; line-height: 1.5; }
+.adm-hint code { background: var(--sand); padding: 2px 6px; border-radius: 6px; font-size: 13px; }
+.adm-stack { display: flex; flex-direction: column; gap: 18px; margin-top: 20px; }
+.adm-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+/* ---------- Form fields ---------- */
+.adm-field { display: flex; flex-direction: column; gap: 6px; }
+.adm-label { font: 500 14px var(--font-heading); }
+.adm-field small { color: var(--mute); font-size: 13px; }
+.adm input, .adm textarea {
+  width: 100%; padding: 12px 14px; border: 1px solid #d9c9a5; border-radius: 12px;
+  background: #fff; color: var(--ink); font: 16px/1.5 var(--font-body);
+}
+.adm textarea { resize: vertical; }
+.adm input:focus, .adm textarea:focus { outline: 3px solid rgba(74, 61, 120, 0.25); border-color: var(--dusk); }
+.adm-error { color: #b3261e; font-size: 14px; }
+.adm-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.adm-link { background: none; border: 0; padding: 0; color: var(--dusk); font: 500 14px var(--font-heading); cursor: pointer; text-decoration: underline; }
+.adm-empty { color: var(--mute); font-size: 15px; }
+
+/* ---------- Image field ---------- */
+.adm-image { display: flex; gap: 16px; align-items: flex-start; }
+.adm-thumb { flex: none; width: 96px; height: 96px; object-fit: cover; border-radius: 12px; background: var(--sand); border: 1px solid var(--line); }
+.adm-thumb-empty { display: grid; place-items: center; color: var(--mute); font-size: 13px; }
+.adm-image-controls { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+
+/* ---------- Lists ---------- */
+.adm-list { display: flex; flex-direction: column; gap: 10px; }
+.adm-item { border: 1px solid var(--line); border-radius: 14px; background: #fffdf7; }
+.adm-item.open { border-color: var(--amber); }
+.adm-item-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 6px 4px; }
+.adm-item-toggle {
+  flex: 1; min-width: 0; text-align: left; padding: 10px 12px; border: 0; background: none; cursor: pointer;
+  font: 500 15px var(--font-heading); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.adm-item-tools { display: flex; gap: 6px; flex: none; }
+.adm-item-tools button, .adm-string button {
+  min-width: 36px; height: 36px; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px;
+  background: #fff; color: var(--ink); font-size: 14px; cursor: pointer;
+}
+.adm-item-tools button:disabled { opacity: 0.3; cursor: default; }
+.adm-danger { color: #b3261e !important; }
+.adm-danger-btn { color: #b3261e; border-color: #b3261e; }
+.adm-item-body { padding: 4px 18px 20px; margin-top: 0; }
+.adm-string { display: flex; gap: 8px; align-items: flex-start; }
+
+/* ---------- Login ---------- */
+.adm-login { width: min(420px, 100%); }
+.adm-login .logo { margin-bottom: 16px; }
+
+/* ---------- Phones ---------- */
+@media (max-width: 640px) {
+  .adm-panel { padding: 20px; border-radius: 16px; }
+  .adm-grid-2 { grid-template-columns: 1fr; }
+  .adm-image { flex-direction: column; }
+  .adm-top-actions { width: 100%; }
+  .adm-status { flex: 1 1 100%; }
+  .adm-item-head { flex-wrap: wrap; }
+  .adm-item-tools { width: 100%; padding: 0 8px 8px; }
+  .adm-item-toggle { white-space: normal; }
+}

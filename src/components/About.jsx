@@ -1,6 +1,7 @@
-import { about, background } from "../data.js";
+import { useContent } from "../content/ContentContext.jsx";
 
 export default function About() {
+  const { about, background } = useContent();
   return (
     <section id="about" className="about">
       <div>

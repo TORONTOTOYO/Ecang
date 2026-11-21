@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { lazy, Suspense, useState, useEffect, useRef } from "react";
 import Nav from "./components/Nav.jsx";
 import Hero from "./components/Hero.jsx";
 import About from "./components/About.jsx";
@@ -7,14 +7,26 @@ import Certifications from "./components/Certifications.jsx";
 import Contact from "./components/Contact.jsx";
 import CvPage from "./components/CvPage.jsx";
 import Loader from "./components/Loader.jsx";
+import { useContentReady } from "./content/ContentContext.jsx";
+
+// The admin panel is loaded only when someone opens #/admin,
+// so regular visitors never download it.
+const AdminPage = lazy(() => import("./admin/AdminPage.jsx"));
 
 // How long the loading screen shows when switching pages (milliseconds)
 const LOADING_TIME = 800;
+const LOADING_LABELS = { cv: "Opening CV", home: "Back to portfolio", admin: "Opening admin" };
 
-// Two pages, chosen by the URL hash: "#/cv" shows the CV, anything else shows the portfolio.
-const getPage = () => (window.location.hash === "#/cv" ? "cv" : "home");
+// Pages, chosen by the URL hash: #/cv, #/admin, or anything else for the portfolio.
+function getPage() {
+  const hash = window.location.hash;
+  if (hash === "#/cv") return "cv";
+  if (hash === "#/admin") return "admin";
+  return "home";
+}
 
 export default function App() {
+  const contentReady = useContentReady();
   const [page, setPage] = useState(getPage);
   const [loadingTo, setLoadingTo] = useState(null); // page we are loading, or null
   const currentPage = useRef(page);
@@ -58,7 +70,21 @@ export default function App() {
     return () => { document.body.style.overflow = ""; };
   }, [loadingTo]);
 
-  const loader = loadingTo && <Loader label={loadingTo === "cv" ? "Opening CV" : "Back to portfolio"} />;
+  const loader = loadingTo && <Loader label={LOADING_LABELS[loadingTo]} />;
+
+  if (page === "admin") {
+    return (
+      <>
+        <Suspense fallback={<Loader label="Opening admin" />}>
+          <AdminPage />
+        </Suspense>
+        {loader}
+      </>
+    );
+  }
+
+  // Wait for the content from Firebase (returning visitors skip this)
+  if (!contentReady) return <Loader label="Loading" />;
 
   if (page === "cv") {
     return (

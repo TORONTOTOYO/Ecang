@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { profile, background, certifications, contact, cv } from "../data.js";
+import { useContent } from "../content/ContentContext.jsx";
 
 // ATS-friendly layout: one column, standard section names, plain text,
 // no tables, icons, photos, or graphics. Saved PDFs keep selectable text.
 export default function CvPage() {
+  const { profile, background, certifications, contact, cv } = useContent();
   // The browser uses the page title as the default PDF file name.
   useEffect(() => {
     const previous = document.title;
@@ -84,7 +85,12 @@ export default function CvPage() {
           </>
         )}
 
-
+        {cv.languages.length > 0 && (
+          <>
+            <h2>Languages</h2>
+            <p>{cv.languages.join(", ")}</p>
+          </>
+        )}
         </div>
         <div className="cv-space foot" aria-hidden="true" />
       </article>

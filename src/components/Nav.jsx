@@ -1,24 +1,32 @@
 import { useState } from "react";
-import { nav, projects, certifications } from "../data.js";
+import { useContent } from "../content/ContentContext.jsx";
 
-// Menu links for sections that have no items are hidden
-const isEmpty = {
-  "#work": projects.length === 0,
-  "#certifications": certifications.items.length === 0,
-};
+const LINKS = [
+  { label: "Home", href: "#home" },
+  { label: "About me", href: "#about" },
+  { label: "Projects", href: "#work" },
+  { label: "Certifications", href: "#certifications" },
+];
 
 export default function Nav() {
+  const { projects, certifications } = useContent();
   const [open, setOpen] = useState(false); // is the mobile menu open?
   const close = () => setOpen(false);
+
+  // Links for sections that have no items are hidden
+  const isEmpty = {
+    "#work": projects.length === 0,
+    "#certifications": certifications.items.length === 0,
+  };
 
   return (
     <header className="nav">
       <a href="#home" className="logo" aria-label="Home">E</a>
 
       <ul id="menu" className={open ? "nav-links open" : "nav-links"}>
-        {nav.filter((item) => !isEmpty[item.href]).map((item) => (
-          <li key={item.label}>
-            <a href={item.href} onClick={close}>{item.label}</a>
+        {LINKS.filter((link) => !isEmpty[link.href]).map((link) => (
+          <li key={link.label}>
+            <a href={link.href} onClick={close}>{link.label}</a>
           </li>
         ))}
       </ul>
