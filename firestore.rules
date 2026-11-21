@@ -1,15 +1,21 @@
 // Paste these into: Firebase console > Firestore Database > Rules > Publish
-// Replace PASTE_ADMIN_UID_HERE with the admin's User UID
-// (Firebase console > Authentication > Users > copy "User UID").
+// Replace PASTE_ADMIN_GMAIL_HERE with your admin Gmail address (all lowercase).
 //
-// Everyone can READ the website content. Only the admin can CHANGE it.
+// Everyone can READ the website content. Only the admin Gmail account can CHANGE it.
 
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+          && request.auth.token.email == "cjf5671@gmail.com"
+          && request.auth.token.email_verified == true;
+    }
+
     match /content/{docId} {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.uid == "N7zFz26dVQdQ2wCVsX6Wg54ndqb2";
+      allow write: if isAdmin();
     }
   }
 }

@@ -85,6 +85,9 @@
 .adm-login { width: min(420px, 100%); }
 .adm-login .logo { margin-bottom: 16px; }
 
+.adm-google { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; background: #fff; color: var(--ink); border-color: #d9c9a5; padding: 14px 20px; }
+.adm-google:disabled { opacity: 0.6; cursor: default; transform: none; }
+
 /* ---------- Phones ---------- */
 @media (max-width: 640px) {
   .adm-panel { padding: 20px; border-radius: 16px; }

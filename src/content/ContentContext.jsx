@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { isFirebaseConfigured } from "../firebase/app.js";
 import { defaultContent } from "./defaultContent.js";
-import { fetchContent, readCache, writeCache, normalize } from "./contentService.js";
+import { fetchContent } from "./contentService.js";
+import { readCache, writeCache, normalize } from "./contentUtils.js";
 
 // Loads the site content once and shares it with every component.
 //   const { profile, projects } = useContent();

@@ -2,19 +2,18 @@ import { initializeApp } from "firebase/app";
 
 // These values come from the .env file (see .env.example).
 const env = import.meta.env;
-const config = {
-  apiKey: "AIzaSyC1pA-JpVz9rbbIA2TViHSRulLmy_tbXgg",
-  authDomain: "eca-portfolio.firebaseapp.com",
-  projectId: "eca-portfolio",
-  storageBucket: "eca-portfolio.firebasestorage.app",
-  messagingSenderId: "1031023508144",
-  appId: "1:1031023508144:web:45fc6dbd5f72690d005975",
-  measurementId: "G-EKCXE781EV"
+export const firebaseConfig = {
+  apiKey: env.VITE_FIREBASE_API_KEY,
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: env.VITE_FIREBASE_APP_ID,
 };
 
 // If .env is not filled in, the site still works using the default content.
-export const isFirebaseConfigured = Boolean(config.apiKey && config.projectId);
-export const app = isFirebaseConfigured ? initializeApp(config) : null;
+export const isFirebaseConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
+export const app = isFirebaseConfigured ? initializeApp(firebaseConfig) : null;
 
 // The only email allowed to use the admin panel
-export const adminEmail = env.VITE_ADMIN_EMAIL || "ericamaecaguioa@gmail.com";
+export const adminEmail = env.VITE_ADMIN_EMAIL || "";

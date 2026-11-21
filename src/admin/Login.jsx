@@ -1,45 +1,55 @@
 import { useState } from "react";
-import { login } from "./firebaseAdmin.js";
+import { loginWithGoogle } from "./firebaseAdmin.js";
+
+const GoogleLogo = () => (
+  <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true">
+    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+  </svg>
+);
+
+// Error messages for the most common Google sign-in problems
+function messageFor(code) {
+  if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") return "";
+  if (code === "auth/popup-blocked") return "Your browser blocked the sign-in window. Allow pop-ups for this site and try again.";
+  if (code === "auth/unauthorized-domain") return "This website address is not allowed yet. Add it in Firebase: Authentication > Settings > Authorized domains.";
+  if (code === "auth/operation-not-allowed") return "Google sign-in is not turned on. In Firebase: Authentication > Sign-in method > Google > Enable.";
+  return "Could not sign in. Please try again.";
+}
 
 export default function Login({ notice = "" }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  const submit = async (event) => {
-    event.preventDefault();
+  const signIn = async () => {
     setBusy(true);
     setError("");
     try {
-      await login(email.trim(), password);
+      await loginWithGoogle();
     } catch (err) {
-      const wrong = ["auth/invalid-credential", "auth/wrong-password", "auth/user-not-found", "auth/invalid-email"];
-      setError(wrong.includes(err.code) ? "Wrong email or password." : "Could not log in. Please try again.");
+      setError(messageFor(err.code));
+    } finally {
       setBusy(false);
     }
   };
 
   return (
     <div className="adm adm-center">
-      <form className="adm-panel adm-login" onSubmit={submit}>
+      <div className="adm-panel adm-login">
         <div className="logo">E</div>
         <h1>Admin login</h1>
-        <p className="adm-hint">Sign in to edit what shows on your website.</p>
+        <p className="adm-hint">Sign in with the Gmail account that manages this website.</p>
         <div className="adm-stack">
-          <label className="adm-field">
-            <span className="adm-label">Email</span>
-            <input type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          </label>
-          <label className="adm-field">
-            <span className="adm-label">Password</span>
-            <input type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          </label>
           {(error || notice) && <p className="adm-error" role="alert">{error || notice}</p>}
-          <button className="btn" disabled={busy}>{busy ? "Logging in..." : "Log in"}</button>
+          <button className="btn adm-google" onClick={signIn} disabled={busy}>
+            <GoogleLogo />
+            {busy ? "Opening Google..." : "Continue with Google"}
+          </button>
           <a className="adm-link" href="#home">← Back to the website</a>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import "../styles/admin.css";
 import Loader from "../components/Loader.jsx";
 import Login from "./Login.jsx";
-import { isFirebaseConfigured, adminEmail } from "../firebase/app.js";
-import { watchUser, logout } from "./firebaseAdmin.js";
-import { fetchContent, saveContent } from "../content/contentService.js";
+import { isFirebaseConfigured, adminEmail, firebaseConfig } from "../firebase/app.js";
+import { watchUser, logout, fetchAdminContent, saveAdminContent } from "./firebaseAdmin.js";
 import { defaultContent } from "../content/defaultContent.js";
 import { setIn } from "./helpers.js";
 import HomeSection from "./sections/HomeSection.jsx";
@@ -26,17 +25,21 @@ const TABS = [
 
 export default function AdminPage() {
   if (!isFirebaseConfigured) return <SetupNotice />;
+  if (!adminEmail) return <SetupNotice missingEmail />;
   return <AuthGate />;
 }
 
-function SetupNotice() {
+function SetupNotice({ missingEmail = false }) {
   return (
     <div className="adm adm-center">
       <div className="adm-panel adm-login">
-        <h1>Firebase is not set up yet</h1>
+        <h1>{missingEmail ? "Admin email is missing" : "Firebase is not set up yet"}</h1>
         <p className="adm-hint">
-          Copy the file <code>.env.example</code> to <code>.env</code>, fill in your Firebase details, and restart
-          <code> npm run dev</code>. The README explains each step.
+          {missingEmail ? (
+            <>Add your admin Gmail address to the <code>.env</code> file as <code>VITE_ADMIN_EMAIL=you@gmail.com</code>, then restart <code>npm run dev</code>.</>
+          ) : (
+            <>Copy the file <code>.env.example</code> to <code>.env</code>, fill in your Firebase details, and restart <code>npm run dev</code>. The README explains each step.</>
+          )}
         </p>
         <a className="adm-link" href="#home">← Back to the website</a>
       </div>
@@ -53,7 +56,7 @@ function AuthGate() {
   useEffect(
     () =>
       watchUser(async (signedIn) => {
-        const notAllowed = signedIn && adminEmail && signedIn.email?.toLowerCase() !== adminEmail.toLowerCase();
+        const notAllowed = signedIn && signedIn.email?.toLowerCase() !== adminEmail.toLowerCase();
         if (notAllowed) {
           setDenied(true);
           setUser(null);
@@ -79,7 +82,7 @@ function Editor({ user }) {
 
   // Load the latest saved content
   useEffect(() => {
-    fetchContent()
+    fetchAdminContent()
       .then((content) => {
         setDraft(content);
         setSavedJson(JSON.stringify(content));
@@ -102,14 +105,14 @@ function Editor({ user }) {
   const save = async () => {
     setStatus({ kind: "busy", text: "Saving..." });
     try {
-      await saveContent(draft);
+      await saveAdminContent(draft);
       setSavedJson(JSON.stringify(draft));
       setStatus({ kind: "ok", text: "Saved. Your website is updated." });
     } catch (error) {
       setStatus({
         kind: "error",
         text: error.code === "permission-denied"
-          ? "Not allowed to save. Check that the Firestore rules contain your admin user ID."
+          ? `Not allowed to save. Signed in as ${user.email}, project "${firebaseConfig.projectId}". In Firebase > Firestore Database > Rules, the email must match this exactly and the rules must be published.`
           : `Could not save: ${error.message}`,
       });
     }

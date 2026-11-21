@@ -31,17 +31,15 @@ Without Firebase the site works too, using the sample text in `src/content/defau
        (and so on)
 
    Then stop and restart `npm run dev`.
-4. **Authentication**: Build > Authentication > Get started > Sign-in method > turn on
-   **Email/Password**. Then open the **Users** tab > **Add user** and create your admin
-   email and password. Copy the **User UID** shown in the list. Put that same email in
-   `.env` as `VITE_ADMIN_EMAIL=`.
-   Also, if you see it, turn off new sign-ups so nobody else can create an account:
-   Authentication > Settings > User actions > untick **Enable create (sign-up)**.
+4. **Authentication (Google sign-in)**: Build > Authentication > Get started > Sign-in method >
+   **Google** > Enable > choose a support email > Save. There is no password to create:
+   you log in with your Gmail account. Put your Gmail in `.env` as `VITE_ADMIN_EMAIL=you@gmail.com`
+   (all lowercase). Leave Email/Password turned off.
 5. **Firestore**: Build > Firestore Database > Create database (production mode).
-   Open **Rules**, paste the contents of `firestore.rules`, replace `PASTE_ADMIN_UID_HERE`
-   with your User UID, and press **Publish**.
+   Open **Rules**, paste the contents of `firestore.rules`, replace `PASTE_ADMIN_GMAIL_HERE`
+   with your admin Gmail (lowercase), and press **Publish**.
 6. **Storage (for photo uploads)**: Build > Storage > Get started. Open **Rules**, paste the
-   contents of `storage.rules` with your User UID, and press **Publish**.
+   contents of `storage.rules` with your Gmail, and press **Publish**.
    Note: Firebase currently requires the Blaze (pay as you go) plan to use Storage. It has a
    free monthly allowance that a portfolio will normally stay within, but check the Firebase
    pricing page. If you prefer not to use Storage, skip this step and paste image links
@@ -49,15 +47,14 @@ Without Firebase the site works too, using the sample text in `src/content/defau
 
 ### Only one admin
 
-Three layers keep everyone else out:
-1. You create the single admin account yourself, and the login page has no sign-up.
-2. The admin page signs out any email that is not `VITE_ADMIN_EMAIL`.
-3. The Firebase rules only let your admin User UID change content or upload photos.
+Two layers keep everyone else out:
+1. The admin page signs out any Google account that is not `VITE_ADMIN_EMAIL`.
+2. The Firebase rules only let your admin Gmail change content or upload photos.
    This is the real protection. Even if someone got into the admin page, saving would fail.
 
 ## 3. Use the admin panel
 
-1. Open http://localhost:5173/#/admin and log in with the admin email and password.
+1. Open http://localhost:5173/#/admin and press **Continue with Google**. Choose your admin Gmail.
 2. Pick a tab: **Home and About**, **Projects**, **Certifications**, **CV**, **Contact**, **Settings**.
 3. Add, edit, reorder (arrows), or delete items. Click an item's name to open it.
 4. For photos, press **Upload photo** (photos are made smaller automatically) or paste an image link.
