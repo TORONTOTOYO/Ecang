@@ -12,6 +12,8 @@ import CertificationsSection from "./sections/CertificationsSection.jsx";
 import CvSection from "./sections/CvSection.jsx";
 import ContactSection from "./sections/ContactSection.jsx";
 import SettingsSection from "./sections/SettingsSection.jsx";
+import AppearanceSection from "./sections/AppearanceSection.jsx";
+import BrandLogo from "../components/BrandLogo.jsx";
 
 // The admin tabs. To add a tab, add a line here and a section file in ./sections.
 const TABS = [
@@ -20,6 +22,7 @@ const TABS = [
   { id: "certs", label: "Certifications", Section: CertificationsSection },
   { id: "cv", label: "CV", Section: CvSection },
   { id: "contact", label: "Contact", Section: ContactSection },
+  { id: "appearance", label: "Appearance", Section: AppearanceSection },
   { id: "settings", label: "Settings", Section: SettingsSection },
 ];
 
@@ -137,7 +140,7 @@ function Editor({ user }) {
       <header className="adm-top">
         <div className="adm-top-inner">
           <div className="adm-brand">
-            <span className="logo">E</span>
+            <BrandLogo className="logo" />
             <div>
               <strong>Admin</strong>
               <small>{user.email}</small>

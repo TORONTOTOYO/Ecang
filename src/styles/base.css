@@ -12,6 +12,10 @@
   --dusk: #4a3d78;    /* violet accent */
   --mute: #6b6280;    /* softer grey text */
   --line: #ecdfc3;    /* card borders */
+  --surface: #fffdf7; /* card background */
+  --panel: #231c33;   /* dark contact card */
+  --on-accent: #231c33; /* text on top of the accent color */
+  --viewer: #161222;  /* photo viewer background (always dark) */
 
   /* Fonts */
   --font-heading: "Poppins", system-ui, sans-serif;
@@ -63,7 +67,7 @@ h1, h2, h3 { font-family: var(--font-heading); font-weight: 600; letter-spacing:
 .btn svg { margin-left: 8px; vertical-align: -2px; }
 .btn-sm { padding: 10px 24px; }
 .btn-outline { background: transparent; color: var(--ink); }
-.btn-amber { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+.btn-amber { background: var(--amber); border-color: var(--amber); color: var(--on-accent); }
 
 /* ---------- Section headings ---------- */
 .section-head {

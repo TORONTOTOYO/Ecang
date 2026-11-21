@@ -1,8 +1,15 @@
-import { Panel, TextField } from "../fields.jsx";
+import { Panel, TextField, ToggleField } from "../fields.jsx";
 
 export default function SettingsSection({ content, update, onReset }) {
   return (
     <>
+      <Panel title="Website sections" hint="Turn sections on or off. Hidden sections are removed from the portfolio and its navigation.">
+        <ToggleField label="Home introduction" checked={content.sections.home} onChange={(value) => update(["sections", "home"], value)} />
+        <ToggleField label="About me" checked={content.sections.about} onChange={(value) => update(["sections", "about"], value)} />
+        <ToggleField label="Projects" checked={content.sections.work} onChange={(value) => update(["sections", "work"], value)} />
+        <ToggleField label="Certifications" checked={content.sections.certifications} onChange={(value) => update(["sections", "certifications"], value)} />
+        <ToggleField label="Contact" checked={content.sections.contact} onChange={(value) => update(["sections", "contact"], value)} />
+      </Panel>
       <Panel title="Display">
         <TextField
           label="Show a carousel after this many cards"

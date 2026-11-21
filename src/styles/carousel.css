@@ -32,8 +32,8 @@
 .arrow-btn:disabled { opacity: 0.3; cursor: default; }
 
 .dots { display: flex; gap: 10px; align-items: center; }
-.dot { width: 10px; height: 10px; border-radius: 50%; border: 0; padding: 0; background: #cdbd9a; cursor: pointer; }
-.dot.active { width: 28px; border-radius: 999px; background: var(--ink); }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 0; padding: 0; background: var(--mute); opacity: 0.35; cursor: pointer; }
+.dot.active { width: 28px; border-radius: 999px; background: var(--ink); opacity: 1; }
 
 /* On phones the next card peeks in, so people know to swipe */
 @media (max-width: 640px) {

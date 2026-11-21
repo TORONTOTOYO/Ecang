@@ -9,7 +9,7 @@ export default function HomeSection({ content, update }) {
         <TextField label="Your name" value={profile.name} onChange={(v) => update(["profile", "name"], v)} />
         <TextField label="Role" value={profile.role} onChange={(v) => update(["profile", "role"], v)} />
         <TextArea label="Short intro" rows={3} value={profile.intro} onChange={(v) => update(["profile", "intro"], v)} />
-        <ImageField label="Portrait" folder="portrait" value={profile.portrait} onChange={(v) => update(["profile", "portrait"], v)} />
+        <ImageField label="Portrait" value={profile.portrait} onChange={(v) => update(["profile", "portrait"], v)} />
       </Panel>
 
       <Panel title="Who am I?" hint="A few sentences about you.">

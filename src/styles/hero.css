@@ -9,7 +9,7 @@
   grid-template-columns: 1.1fr 0.9fr;
   gap: 40px;
   align-items: center;
-  padding: 40px var(--pad) var(--section-space);
+  padding: 104px var(--pad) var(--section-space);
 }
 .hero h1 {
   font-family: var(--font-accent);
@@ -61,7 +61,7 @@
 
 /* ---------- Tablet and phone ---------- */
 @media (max-width: 1000px) {
-  .hero { grid-template-columns: 1fr; gap: 56px; padding-top: 24px; text-align: center; }
+  .hero { grid-template-columns: 1fr; gap: 56px; padding-top: 104px; text-align: center; }
   .intro { margin-inline: auto; }
   .hero-buttons { justify-content: center; }
 

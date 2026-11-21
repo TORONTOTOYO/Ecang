@@ -19,7 +19,6 @@ export default function Gallery({ images, title }) {
           src={current.src}
           alt={current.caption || `${title} photo ${index + 1}`}
           index={index}
-          hint
         />
         {count > 1 && (
           <>

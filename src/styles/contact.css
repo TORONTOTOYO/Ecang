@@ -9,8 +9,8 @@
   align-items: center;
   margin: 0 var(--pad) var(--section-space);
   padding: 64px;
-  background: var(--ink);
-  color: var(--cream);
+  background: var(--panel);
+  color: #fff8ea;
   border-radius: 32px;
 }
 .contact h2 { font-size: 40px; margin-bottom: 14px; }

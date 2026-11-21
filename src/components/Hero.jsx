@@ -41,12 +41,6 @@ export default function Hero() {
             />
           )}
         </div>
-        {portraitMissing && (
-          <div className="portrait-note">
-            Add your portrait
-            <small>Save it as public{profile.portrait}</small>
-          </div>
-        )}
       </div>
     </section>
   );

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { uploadImage } from "./firebaseAdmin.js";
 
 // Small form pieces used by every admin section.
 
@@ -33,6 +32,47 @@ export function TextArea({ label, value, onChange, hint, rows = 4 }) {
   );
 }
 
+export function SelectField({ label, value, options, onChange }) {
+  return (
+    <label className="adm-field">
+      <span className="adm-label">{label}</span>
+      <select value={value ?? ""} onChange={(event) => onChange(event.target.value)}>
+        {options.map((option) => {
+          const item = typeof option === "string" ? { value: option, label: option } : option;
+          return <option key={item.value} value={item.value}>{item.label}</option>;
+        })}
+      </select>
+    </label>
+  );
+}
+
+export function ColorField({ label, value, fallback, onChange }) {
+  const color = /^#[0-9a-f]{6}$/i.test(value || "") ? value : fallback;
+
+  return (
+    <label className="adm-field">
+      <span className="adm-label">{label}</span>
+      <span className="adm-row">
+        <input className="adm-color" type="color" value={color} onChange={(event) => onChange(event.target.value)} />
+        <span className="adm-color-text">{color}</span>
+      </span>
+    </label>
+  );
+}
+
+export function ToggleField({ label, checked, onChange, hint }) {
+  return (
+    <label className="adm-toggle">
+      <input type="checkbox" role="switch" checked={Boolean(checked)} onChange={(event) => onChange(event.target.checked)} />
+      <span className="adm-switch" aria-hidden="true" />
+      <span className="adm-toggle-text">
+        <strong>{label}</strong>
+        {hint && <small>{hint}</small>}
+      </span>
+    </label>
+  );
+}
+
 // A list of words typed with commas, saved as an array.
 export function TagsField({ label, value = [], onChange, hint }) {
   const joined = value.join(", ");
@@ -50,30 +90,8 @@ export function TagsField({ label, value = [], onChange, hint }) {
   );
 }
 
-// Image link + upload button + preview.
-export function ImageField({ label, value, onChange, folder }) {
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleFile = async (event) => {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file) return;
-    setBusy(true);
-    setError("");
-    try {
-      onChange(await uploadImage(file, folder));
-    } catch (err) {
-      setError(
-        err.code === "storage/unauthorized"
-          ? "Upload not allowed. Check the Storage rules and that you are logged in as the admin."
-          : "Upload failed. If Firebase Storage is not set up yet, paste an image link instead."
-      );
-    } finally {
-      setBusy(false);
-    }
-  };
-
+// Image URL + preview.
+export function ImageField({ label, value, onChange }) {
   return (
     <div className="adm-field">
       <span className="adm-label">{label}</span>
@@ -84,19 +102,14 @@ export function ImageField({ label, value, onChange, folder }) {
           <div className="adm-thumb adm-thumb-empty">No photo</div>
         )}
         <div className="adm-image-controls">
-          <input value={value ?? ""} onChange={(e) => onChange(e.target.value)} placeholder="Paste an image link, or upload a photo" />
+          <input value={value ?? ""} onChange={(e) => onChange(e.target.value)} placeholder="Paste an image URL" />
           <div className="adm-row">
-            <label className="btn btn-sm btn-outline">
-              {busy ? "Uploading..." : "Upload photo"}
-              <input type="file" accept="image/*" hidden onChange={handleFile} disabled={busy} />
-            </label>
             {value && (
               <button type="button" className="adm-link" onClick={() => onChange("")}>Remove photo</button>
             )}
           </div>
         </div>
       </div>
-      {error && <small className="adm-error">{error}</small>}
     </div>
   );
 }

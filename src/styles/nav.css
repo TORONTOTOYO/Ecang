@@ -1,10 +1,15 @@
 /* =========================================================
-   NAVIGATION: logo and menu links.
+   NAVIGATION: logo, menu links, light/dark button.
+   It floats over the top of the hero photo.
    On tablets and phones the links become a dropdown menu.
    ========================================================= */
 
 .nav {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15,12 +20,18 @@
   height: 44px;
   border-radius: 50%;
   background: var(--amber);
+  color: var(--on-accent);
   display: grid;
   place-items: center;
+  overflow: hidden;
   font: 600 22px var(--font-accent);
 }
+.brand-content { width: 100%; height: 100%; display: grid; place-items: center; }
+.brand-content img, .logo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .nav-links { display: flex; gap: 36px; font: 500 15px var(--font-heading); }
 .nav-links a:hover { color: var(--dusk); }
+
+.nav-actions { display: flex; align-items: center; gap: 8px; }
 
 /* Hamburger button (hidden on desktop) */
 .menu-btn {
@@ -60,7 +71,7 @@
     background: var(--cream);
     border: 1px solid var(--line);
     border-radius: 20px;
-    box-shadow: 0 12px 32px rgba(35, 28, 51, 0.15);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
     padding: 8px;
   }
   .nav-links.open { display: flex; }

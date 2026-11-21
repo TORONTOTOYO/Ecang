@@ -4,7 +4,7 @@ import { useContent } from "../content/ContentContext.jsx";
 // ATS-friendly layout: one column, standard section names, plain text,
 // no tables, icons, photos, or graphics. Saved PDFs keep selectable text.
 export default function CvPage() {
-  const { profile, background, certifications, contact, cv } = useContent();
+  const { profile, background, certifications, contact, cv, sections } = useContent();
   // The browser uses the page title as the default PDF file name.
   useEffect(() => {
     const previous = document.title;
@@ -50,7 +50,7 @@ export default function CvPage() {
               <span>{job.org}</span>
               <span>{job.location}</span>
             </div>
-            <ul>{job.bullets.map((b, j) => <li key={j}>{b}</li>)}</ul>
+            {job.bullets.length > 0 && <ul>{job.bullets.map((b, j) => <li key={j}>{b}</li>)}</ul>}
           </div>
         ))}
 
@@ -72,7 +72,7 @@ export default function CvPage() {
           ))}
         </ul>
 
-        {certifications.items.length > 0 && (
+        {sections.certifications && certifications.items.length > 0 && (
           <>
             <h2>Certifications</h2>
             <ul>

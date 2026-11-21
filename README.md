@@ -2,10 +2,10 @@
 
 The website only **displays** content. The content lives in **Firebase**, and you change it
 from a private **admin panel** at `/#/admin`: edit text, add or delete projects and
-certificates, upload photos, and update your CV. Nobody needs to touch the code.
+certificates, add image links, and update your CV. Nobody needs to touch the code.
 
     Visitors  -->  website  -->  reads content from Firebase (Firestore)
-    Admin     -->  /#/admin -->  logs in (Firebase Auth) --> saves content + uploads photos (Storage)
+   Admin     -->  /#/admin -->  logs in (Firebase Auth) --> saves content (Firestore)
 
 ## 1. Run it on your computer
 
@@ -38,27 +38,21 @@ Without Firebase the site works too, using the sample text in `src/content/defau
 5. **Firestore**: Build > Firestore Database > Create database (production mode).
    Open **Rules**, paste the contents of `firestore.rules`, replace `PASTE_ADMIN_GMAIL_HERE`
    with your admin Gmail (lowercase), and press **Publish**.
-6. **Storage (for photo uploads)**: Build > Storage > Get started. Open **Rules**, paste the
-   contents of `storage.rules` with your Gmail, and press **Publish**.
-   Note: Firebase currently requires the Blaze (pay as you go) plan to use Storage. It has a
-   free monthly allowance that a portfolio will normally stay within, but check the Firebase
-   pricing page. If you prefer not to use Storage, skip this step and paste image links
-   (or use files in `public/images/`) in the admin panel instead.
-
 ### Only one admin
 
 Two layers keep everyone else out:
 1. The admin page signs out any Google account that is not `VITE_ADMIN_EMAIL`.
-2. The Firebase rules only let your admin Gmail change content or upload photos.
+2. The Firebase rules only let your admin Gmail change content.
    This is the real protection. Even if someone got into the admin page, saving would fail.
 
 ## 3. Use the admin panel
 
 1. Open http://localhost:5173/#/admin and press **Continue with Google**. Choose your admin Gmail.
-2. Pick a tab: **Home and About**, **Projects**, **Certifications**, **CV**, **Contact**, **Settings**.
+2. Pick a tab: **Home and About**, **Projects**, **Certifications**, **CV**, **Contact**, **Appearance**, **Settings**.
 3. Add, edit, reorder (arrows), or delete items. Click an item's name to open it.
-4. For photos, press **Upload photo** (photos are made smaller automatically) or paste an image link.
-5. Press **Save changes**. The website updates right away for new visitors.
+4. In **Settings**, switch portfolio sections on or off. In **Appearance**, choose colors and fonts; day/night mode changes automatically at 6am and 6pm local time.
+5. For photos, paste an image URL or use a file in `public/images/`.
+6. Press **Save changes**. The website updates right away for new visitors.
 
 The first time, the editor shows the sample content. Replace it with yours and press Save.
 There is no link to the admin page on the website. Keep the address to yourself;
@@ -101,7 +95,6 @@ file in `src/admin/sections/`, and show it in the matching component.
 
 ## Keeping the site fast
 
-- Photos uploaded through the admin panel are resized (max 1600px wide) and compressed.
 - The admin panel and the login code are loaded only on `/#/admin`, not for visitors.
 - Photos load only when they are about to be seen.
 - Publish with `npm run build`, not `npm run dev`.

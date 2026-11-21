@@ -44,7 +44,7 @@ export default function ProjectsSection({ content, update }) {
                 items={project.description}
                 onChange={(v) => patch({ description: v })}
               />
-              <ImageField label="Cover photo (card image)" folder="projects" value={project.cover} onChange={(v) => patch({ cover: v })} />
+              <ImageField label="Cover photo (card image)" value={project.cover} onChange={(v) => patch({ cover: v })} />
 
               <div className="adm-field">
                 <span className="adm-label">Gallery photos</span>
@@ -57,7 +57,7 @@ export default function ProjectsSection({ content, update }) {
                 >
                   {(image, patchImage) => (
                     <>
-                      <ImageField label="Photo" folder="projects" value={image.src} onChange={(v) => patchImage({ src: v })} />
+                      <ImageField label="Photo" value={image.src} onChange={(v) => patchImage({ src: v })} />
                       <TextField label="Caption" value={image.caption} onChange={(v) => patchImage({ caption: v })} />
                     </>
                   )}

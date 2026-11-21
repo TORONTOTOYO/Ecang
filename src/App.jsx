@@ -7,7 +7,9 @@ import Certifications from "./components/Certifications.jsx";
 import Contact from "./components/Contact.jsx";
 import CvPage from "./components/CvPage.jsx";
 import Loader from "./components/Loader.jsx";
-import { useContentReady } from "./content/ContentContext.jsx";
+import HomeSkeleton from "./components/HomeSkeleton.jsx";
+import { useContent, useContentReady } from "./content/ContentContext.jsx";
+import { applyTheme, getNextModeChangeDelay, getThemeMode } from "./theme.js";
 
 // The admin panel is loaded only when someone opens #/admin,
 // so regular visitors never download it.
@@ -27,10 +29,23 @@ function getPage() {
 
 export default function App() {
   const contentReady = useContentReady();
+  const { theme, sections } = useContent();
+  const [mode, setMode] = useState(() => getThemeMode(theme));
   const [page, setPage] = useState(getPage);
   const [loadingTo, setLoadingTo] = useState(null); // page we are loading, or null
   const currentPage = useRef(page);
   const timer = useRef(null);
+
+  useEffect(() => {
+    setMode(getThemeMode(theme));
+    if (theme.autoMode === false) return undefined;
+    const timerId = setTimeout(() => setMode(getThemeMode(theme)), getNextModeChangeDelay());
+    return () => clearTimeout(timerId);
+  }, [mode, theme]);
+
+  useEffect(() => {
+    applyTheme(theme, mode);
+  }, [theme, mode]);
 
   // When the hash changes, show the loading screen, then switch pages.
   useEffect(() => {
@@ -83,8 +98,8 @@ export default function App() {
     );
   }
 
-  // Wait for the content from Firebase (returning visitors skip this)
-  if (!contentReady) return <Loader label="Loading" />;
+  // Use a page-shaped skeleton while first-visit content loads.
+  if (!contentReady) return page === "home" ? <HomeSkeleton /> : <Loader label="Loading" />;
 
   if (page === "cv") {
     return (
@@ -99,11 +114,11 @@ export default function App() {
     <>
       <Nav />
       <main>
-        <Hero />
-        <About />
-        <Work />
-        <Certifications />
-        <Contact />
+        {sections.home && <Hero />}
+        {sections.about && <About />}
+        {sections.work && <Work />}
+        {sections.certifications && <Certifications />}
+        {sections.contact && <Contact />}
       </main>
       {loader}
     </>

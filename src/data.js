@@ -18,7 +18,7 @@ export const profile = {
 
 export const about = {
   title: "Who am I?",
-  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  text: "",
 };
 
 export const background = [
@@ -49,7 +49,6 @@ export const work = {
   blurb: "Films and projects I have been part of.",
 };
 
-// Add as many projects as you like: copy one block and change the values.
 // "cover" is the card image. "images" are shown in the gallery when you press See more.
 export const projects = [
   {
@@ -57,12 +56,9 @@ export const projects = [
     title: "EDEL",
     subtitle: "EDEL",
     role: "Production staff and actress",
-    year: "Add year",
+    year: "",
     summary: "A short film about love and loss as the day turns to dusk.",
-    description: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    ],
+    description: [],
     cover: "/images/projects/edel/cover.jpg",
     images: [
       { src: "/images/projects/edel/1.jpg", caption: "Behind the scenes" },
@@ -76,12 +72,9 @@ export const projects = [
     title: "Sa Pagdating ng Takipsilim",
     subtitle: "Sa Pagdating ng Takipsilim",
     role: "Production staff and actress",
-    year: "Add year",
+    year: "",
     summary: "A short film about love and loss as the day turns to dusk.",
-    description: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    ],
+    description: [],
     cover: "/images/projects/takipsilim/cover.jpg",
     images: [
       { src: "/images/projects/edel/1.jpg", caption: "Behind the scenes" },
@@ -93,30 +86,10 @@ export const projects = [
 
 ];
 
-// Add your certificates. "image" is a photo or scan of the certificate.
 export const certifications = {
   title: "Certifications",
   blurb: "Trainings, workshops, and awards.",
-  items: [
-    {
-      title: "Add certificate title",
-      issuer: "Add the school or organization",
-      date: "Add date",
-      image: "/images/certificates/cert-1.png",
-    },
-    {
-      title: "Add certificate title",
-      issuer: "Add the school or organization",
-      date: "Add date",
-      image: "/images/certificates/cert-2.png",
-    },
-    {
-      title: "Add certificate title",
-      issuer: "Add the school or organization",
-      date: "Add date",
-      image: "/images/certificates/cert-3.png",
-    },
-  ],
+  items: [],
 };
 
 // Content for the CV page (#/cv). Education, certifications, and contact details
@@ -125,24 +98,14 @@ export const cv = {
   fileName: "Erica-CV", // name of the PDF file when saved
   headline: "Actress and Production Staffs",
   summary:
-    "Communication graduate from Laguna with experience in film acting and production support. Write two or three sentences about your strengths, the roles you want, and what you bring to a team.",
+    "Communication graduate from Laguna with experience in film acting and production support.",
   experience: [
     {
       role: "Production Staff and Actress",
       org: "EDEL: Sa Pagdating ng Takipsilim (short film)",
       location: "Laguna, Philippines",
-      period: "Add year",
-      bullets: [
-        "Add what you did, starting with an action verb (for example: Performed, Assisted, Coordinated).",
-        "Add a second achievement or responsibility from this project.",
-      ],
-    },
-    {
-      role: "Add your role",
-      org: "Add project or organization",
-      location: "Add location",
-      period: "Add year",
-      bullets: ["Add what you did here."],
+      period: "",
+      bullets: [],
     },
   ],
   skills: [
@@ -157,8 +120,8 @@ export const cv = {
 export const contact = {
   title: "Let's work together",
   text: "Open to acting roles, production work, and film collaborations around Laguna and Metro Manila.",
-  email: "erica@email.com",
-  phone: "+63 900 000 0000",
+  email: "",
+  phone: "",
   location: "Laguna, Philippines",
 };
 

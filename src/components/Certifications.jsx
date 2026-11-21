@@ -52,7 +52,6 @@ export default function Certifications() {
                 src={cert.image}
                 alt={`Certificate: ${cert.title}`}
                 index={openIndex + 2}
-                hint
               />
             </div>
             <h2>{cert.title}</h2>

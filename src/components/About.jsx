@@ -6,7 +6,7 @@ export default function About() {
     <section id="about" className="about">
       <div>
         <h2 className="section-title">{about.title}</h2>
-        <p>{about.text}</p>
+        {about.text && <p>{about.text}</p>}
       </div>
 
       <div>

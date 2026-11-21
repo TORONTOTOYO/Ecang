@@ -1,0 +1,35 @@
+/* =========================================================
+   ANIMATIONS: page fade, hero intro, and fade-in on scroll.
+   All of them switch off for visitors who prefer reduced motion.
+   ========================================================= */
+
+/* Fade when a page appears (portfolio / CV) */
+.page { animation: page-in 0.5s ease both; }
+@keyframes page-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Hero intro: text rises in, photo settles in */
+.hero-text > * { animation: rise 0.8s ease both; }
+.hero-text > :nth-child(1) { animation-delay: 0.1s; }
+.hero-text > :nth-child(2) { animation-delay: 0.25s; }
+.hero-text > :nth-child(3) { animation-delay: 0.35s; }
+.hero-text > :nth-child(4) { animation-delay: 0.45s; }
+.hero-photo { animation: photo-in 1.3s ease both; }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes photo-in { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+
+/* Fade-up on scroll (classes are added by src/hooks/useScrollReveal.js) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease var(--reveal-delay, 0ms), transform 0.7s ease var(--reveal-delay, 0ms);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Smooth change between light and dark */
+body { transition: background-color 0.4s ease, color 0.4s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .page, .hero-text > *, .hero-photo { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  body { transition: none; }
+}

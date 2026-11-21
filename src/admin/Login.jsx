@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { loginWithGoogle } from "./firebaseAdmin.js";
+import BrandLogo from "../components/BrandLogo.jsx";
 
 const GoogleLogo = () => (
   <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true">
@@ -38,7 +39,7 @@ export default function Login({ notice = "" }) {
   return (
     <div className="adm adm-center">
       <div className="adm-panel adm-login">
-        <div className="logo">E</div>
+        <BrandLogo className="logo" />
         <h1>Admin login</h1>
         <p className="adm-hint">Sign in with the Gmail account that manages this website.</p>
         <div className="adm-stack">

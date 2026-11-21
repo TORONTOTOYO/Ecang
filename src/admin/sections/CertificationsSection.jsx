@@ -23,7 +23,7 @@ export default function CertificationsSection({ content, update }) {
               <TextField label="Certificate title" value={item.title} onChange={(v) => patch({ title: v })} />
               <TextField label="Issued by" value={item.issuer} onChange={(v) => patch({ issuer: v })} />
               <TextField label="Date" value={item.date} onChange={(v) => patch({ date: v })} />
-              <ImageField label="Photo or scan of the certificate" folder="certificates" value={item.image} onChange={(v) => patch({ image: v })} />
+              <ImageField label="Photo or scan of the certificate" value={item.image} onChange={(v) => patch({ image: v })} />
             </>
           )}
         </ListEditor>
