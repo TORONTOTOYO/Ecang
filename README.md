@@ -33,16 +33,16 @@ Without Firebase the site works too, using the sample text in `src/content/defau
    Then stop and restart `npm run dev`.
 4. **Authentication (Google sign-in)**: Build > Authentication > Get started > Sign-in method >
    **Google** > Enable > choose a support email > Save. There is no password to create:
-   you log in with your Gmail account. Put your Gmail in `.env` as `VITE_ADMIN_EMAIL=you@gmail.com`
-   (all lowercase). Leave Email/Password turned off.
+   you log in with your Google account. In Authentication > Users, copy your user's UID into
+   `.env` as `VITE_ADMIN_UID=...`. Leave Email/Password turned off.
 5. **Firestore**: Build > Firestore Database > Create database (production mode).
-   Open **Rules**, paste the contents of `firestore.rules`, replace `PASTE_ADMIN_GMAIL_HERE`
-   with your admin Gmail (lowercase), and press **Publish**.
+   Open **Rules**, paste the contents of `firestore.rules`, replace `PASTE_ADMIN_UID_HERE`
+   with the same UID, and press **Publish**.
 ### Only one admin
 
 Two layers keep everyone else out:
-1. The admin page signs out any Google account that is not `VITE_ADMIN_EMAIL`.
-2. The Firebase rules only let your admin Gmail change content.
+1. The admin page signs out any Google account whose Firebase UID does not match `VITE_ADMIN_UID`.
+2. The Firebase rules only let that UID change content.
    This is the real protection. Even if someone got into the admin page, saving would fail.
 
 ## 3. Use the admin panel
@@ -65,6 +65,25 @@ the real protection is your login plus the Firebase rules.
 Upload the `dist` folder to Netlify, Vercel, Firebase Hosting, or GitHub Pages.
 Add your `.env` values in the host's settings (environment variables), and add your website
 address in Firebase: Authentication > Settings > **Authorized domains**.
+
+## Protected contact form (Vercel)
+
+The public site does not store or display the recipient email. Configure these values in
+Vercel > Project Settings > Environment Variables, then redeploy:
+
+- `VITE_TURNSTILE_SITE_KEY`: Cloudflare Turnstile site key. This is public and is used by the browser.
+- `TURNSTILE_SECRET_KEY`: Turnstile secret key. Server-only; never prefix it with `VITE_`.
+- `RESEND_API_KEY`: Resend API key for sending messages.
+- `CONTACT_TO_EMAIL`: private recipient address.
+- `CONTACT_FROM_EMAIL`: sender address on a domain verified with Resend.
+- `CONTACT_ALLOWED_ORIGINS`: exact site origins, comma-separated, such as `https://example.com,https://www.example.com`.
+- `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`: Upstash Redis REST credentials for per-IP rate limiting.
+
+Create a Cloudflare Turnstile widget for the deployed hostname, verify a sender domain with Resend,
+and create an Upstash Redis database. The form fails closed if any service is missing or unavailable.
+After deploying this version, sign in to the admin once; it removes the old email field from the
+public Firestore content document. Firestore content is public-read by design, so do not store
+private information in that document.
 
 ## Where to change things in the code
 

@@ -4,15 +4,13 @@ import { useContent } from "../content/ContentContext.jsx";
 // ATS-friendly layout: one column, standard section names, plain text,
 // no tables, icons, photos, or graphics. Saved PDFs keep selectable text.
 export default function CvPage() {
-  const { profile, background, certifications, contact, cv, sections } = useContent();
+  const { profile, background, certifications, cv } = useContent();
   // The browser uses the page title as the default PDF file name.
   useEffect(() => {
     const previous = document.title;
     document.title = cv.fileName;
     return () => { document.title = previous; };
   }, []);
-
-  const contactLine = [contact.location, contact.phone, contact.email].filter(Boolean).join(" | ");
 
   return (
     <div className="cv-page">
@@ -34,7 +32,7 @@ export default function CvPage() {
         <div className="cv-content">
         <h1>{profile.name}</h1>
         <p className="cv-headline">{cv.headline}</p>
-        <p>{contactLine}</p>
+        {cv.email && <p>{cv.email}</p>}
 
         <h2>Professional Summary</h2>
         <p>{cv.summary}</p>
@@ -50,7 +48,7 @@ export default function CvPage() {
               <span>{job.org}</span>
               <span>{job.location}</span>
             </div>
-            {job.bullets.length > 0 && <ul>{job.bullets.map((b, j) => <li key={j}>{b}</li>)}</ul>}
+            <ul>{job.bullets.map((b, j) => <li key={j}>{b}</li>)}</ul>
           </div>
         ))}
 
@@ -72,7 +70,7 @@ export default function CvPage() {
           ))}
         </ul>
 
-        {sections.certifications && certifications.items.length > 0 && (
+        {certifications.items.length > 0 && (
           <>
             <h2>Certifications</h2>
             <ul>

@@ -66,6 +66,7 @@ const certifications = {
 // are taken from the other sections above, so you only edit them once.
 const cv = {
   fileName: "Erica-CV", // name of the PDF file when saved
+  email: "",
   headline: "Actress and Production Staff",
   summary:
     "Communication graduate from Laguna with experience in film acting and production support.",
@@ -90,9 +91,6 @@ const cv = {
 const contact = {
   title: "Let's work together",
   text: "Open to acting roles, production work, and film collaborations around Laguna and Metro Manila.",
-  email: "",
-  phone: "",
-  location: "Laguna, Philippines",
 };
 
 // Look of the site (chosen in the admin panel > Appearance)

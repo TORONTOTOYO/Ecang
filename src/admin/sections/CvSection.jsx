@@ -5,7 +5,8 @@ export default function CvSection({ content, update }) {
 
   return (
     <>
-      <Panel title="CV basics" hint="Your education, certificates, and contact details are added to the CV automatically from the other tabs.">
+      <Panel title="CV basics" hint="Add an email address to show on the public CV. This is separate from the private contact-form recipient.">
+        <TextField label="Email for CV" type="email" value={cv.email} onChange={(v) => update(["cv", "email"], v)} />
         <TextField label="Headline" value={cv.headline} onChange={(v) => update(["cv", "headline"], v)} />
         <TextArea label="Professional summary" rows={5} value={cv.summary} onChange={(v) => update(["cv", "summary"], v)} />
         <TextField label="PDF file name" value={cv.fileName} onChange={(v) => update(["cv", "fileName"], v)} hint="The name of the PDF when it is saved, without .pdf" />

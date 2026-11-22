@@ -15,6 +15,12 @@ export function normalize(saved) {
     else if (isObject(base) && isObject(value)) result[key] = { ...base, ...value };
     else result[key] = value;
   }
+  if (isObject(result.contact)) {
+    result.contact = { ...result.contact };
+    delete result.contact.email;
+    delete result.contact.phone;
+    delete result.contact.location;
+  }
   return result;
 }
 
