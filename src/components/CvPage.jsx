@@ -15,7 +15,6 @@ export default function CvPage() {
   return (
     <div className="cv-page">
       <div className="cv-toolbar">
-        <a className="cv-back" href="/#home">← Back to portfolio</a>
         <button className="btn" onClick={() => window.print()}>
           Download PDF
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -32,7 +31,11 @@ export default function CvPage() {
         <div className="cv-content">
         <h1>{profile.name}</h1>
         <p className="cv-headline">{cv.headline}</p>
-        {cv.email && <p>{cv.email}</p>}
+        {cv.email && (
+          <p>
+            <a className="cv-email" href={`mailto:${cv.email}`}>{cv.email}</a>
+          </p>
+        )}
 
         <h2>Professional Summary</h2>
         <p>{cv.summary}</p>

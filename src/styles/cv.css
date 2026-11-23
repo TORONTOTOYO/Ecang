@@ -1,3 +1,5 @@
+.cv-email { color: var(--dusk); text-decoration: underline; text-underline-offset: 3px; }
+
 /* =========================================================
    CV PAGE: ATS-friendly (one column, plain text, Arial,
    no tables, photos, or icons). Also controls how the PDF prints.
