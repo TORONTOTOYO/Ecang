@@ -8,12 +8,15 @@
   position: relative;
   isolation: isolate;
   display: grid;
+  touch-action: pan-y;
+  cursor: grab;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 520px) minmax(0, 1fr);
   align-items: center;
   width: min(1120px, 100%);
   min-height: 310px;
   margin: 0 auto;
 }
+.showreel-stage:active { cursor: grabbing; }
 .showreel-stage:not(.has-neighbors) { grid-template-columns: minmax(0, 520px); justify-content: center; }
 .showreel-stage::before {
   position: absolute;
@@ -68,6 +71,7 @@
 .showreel-caption { padding: 14px 18px 16px; color: #fff8ea; text-align: center; }
 .showreel-caption h3 { font-size: 17px; line-height: 1.3; }
 .showreel-caption p { margin-top: 4px; color: #d3cadf; font-size: 12px; line-height: 1.4; }
+.showreel-facebook-link { display: inline-flex; gap: 5px; margin-top: 8px; color: #e9b55f; font: 500 11px var(--font-heading); text-decoration: underline; text-underline-offset: 3px; }
 .showreel-controls { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 18px auto 0; }
 .showreel-dots { display: flex; align-items: center; gap: 7px; }
 .showreel-dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: #cabb9c; cursor: pointer; transition: width 0.2s ease, background 0.2s ease; }

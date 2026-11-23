@@ -25,13 +25,13 @@ export default function ShowreelsSection({ content, update }) {
         />
       </Panel>
 
-      <Panel title="Reels" hint="Add a public Facebook video or reel link. Private or restricted videos cannot be embedded.">
+      <Panel title="Reels" hint="Use a public Facebook permalink with embedding enabled or a direct Cloudinary video delivery URL.">
         <ListEditor
           items={showreels.items}
           onChange={(items) => update(["showreels", "items"], items)}
           addLabel="Add reel"
           itemTitle={(item) => item.title}
-          newItem={() => ({ id: newId("reel"), title: "", description: "", duration: "", facebookUrl: "" })}
+          newItem={() => ({ id: newId("reel"), title: "", description: "", duration: "", videoUrl: "" })}
         >
           {(reel, patch) => (
             <>
@@ -40,11 +40,11 @@ export default function ShowreelsSection({ content, update }) {
               <div className="adm-grid-2">
                 <TextField label="Duration (optional)" value={reel.duration} onChange={(value) => patch({ duration: value })} placeholder="2:14" />
                 <TextField
-                  label="Facebook video or reel URL"
+                  label="Video URL (Facebook or Cloudinary)"
                   type="url"
-                  value={reel.facebookUrl}
-                  onChange={(value) => patch({ facebookUrl: value })}
-                  placeholder="https://www.facebook.com/..."
+                  value={reel.videoUrl || reel.facebookUrl}
+                  onChange={(value) => patch({ videoUrl: value, facebookUrl: "" })}
+                  placeholder="Facebook permalink or res.cloudinary.com/.../video/upload/..."
                 />
               </div>
             </>
