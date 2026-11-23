@@ -8,12 +8,13 @@ import { readCache, writeCache, normalize } from "./contentUtils.js";
 //   const { profile, projects } = useContent();
 const ContentContext = createContext({ content: defaultContent, ready: true });
 
-export function ContentProvider({ children }) {
+export function ContentProvider({ children, initialContent }) {
   const [state, setState] = useState(() => {
-    const cached = readCache();
+    const snapshot = initialContent ? normalize(initialContent) : null;
+    const cached = snapshot ? null : readCache();
     return {
-      content: cached ? normalize(cached) : defaultContent,
-      ready: !isFirebaseConfigured || Boolean(cached), // returning visitors see the page right away
+      content: snapshot || (cached ? normalize(cached) : defaultContent),
+      ready: Boolean(snapshot) || !isFirebaseConfigured || Boolean(cached), // returning visitors see the page right away
     };
   });
 

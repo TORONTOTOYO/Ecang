@@ -7,21 +7,20 @@ import Gallery from "./Gallery.jsx";
 
 export default function Work() {
   const { work, projects } = useContent();
-  const [openId, setOpenId] = useState(null); // project shown in the pop-up window
-  const close = useCallback(() => setOpenId(null), []);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const close = useCallback(() => setSelectedProject(null), []);
   const featured = projects[0];
   const remaining = projects.slice(1);
 
   if (!featured) return null;
 
-  const project = projects.find((p) => p.id === openId);
+  const project = selectedProject;
   const images = project?.images || [];
 
   return (
     <section id="work" className="work">
       <div className="section-head">
         <div>
-          <span className="work-kicker">Selected work</span>
           <h2 className="section-title">{work.title}</h2>
         </div>
         <p>{work.blurb}</p>
@@ -37,7 +36,7 @@ export default function Work() {
             {[featured.role, featured.year].filter(Boolean).join(" · ")}
           </p>
           {featured.summary && <p className="work-featured-summary">{featured.summary}</p>}
-          <button className="work-featured-action" onClick={() => setOpenId(featured.id)} aria-haspopup="dialog">
+          <button className="work-featured-action" onClick={() => setSelectedProject(featured)} aria-haspopup="dialog">
             See more <span aria-hidden="true">→</span>
           </button>
         </div>
@@ -52,7 +51,7 @@ export default function Work() {
                 <div className="work-card-body">
                   <h3>{project.title}</h3>
                   {project.role && <p className="work-card-meta">{[project.role, project.year].filter(Boolean).join(" · ")}</p>}
-                  <button className="work-card-action" onClick={() => setOpenId(project.id)} aria-haspopup="dialog">
+                  <button className="work-card-action" onClick={() => setSelectedProject(project)} aria-haspopup="dialog">
                     See more <span aria-hidden="true">·</span>
                   </button>
                 </div>

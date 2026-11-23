@@ -20,18 +20,22 @@ const LOADING_TIME = 800;
 const LOADING_LABELS = { cv: "Opening CV", home: "Back to portfolio", admin: "Opening admin" };
 
 // Pages, chosen by the URL hash: #/cv, #/admin, or anything else for the portfolio.
-function getPage() {
+function getPage(initialPage = "home") {
+  if (typeof window === "undefined") return initialPage;
   const hash = window.location.hash;
   if (hash === "#/cv") return "cv";
   if (hash === "#/admin") return "admin";
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
+  if (path === "/cv") return "cv";
+  if (path === "/admin") return "admin";
   return "home";
 }
 
-export default function App() {
+export default function App({ initialPage, initialMode } = {}) {
   const contentReady = useContentReady();
   const { theme, sections } = useContent();
-  const [mode, setMode] = useState(() => getThemeMode(theme));
-  const [page, setPage] = useState(getPage);
+  const [mode, setMode] = useState(() => initialMode || getThemeMode(theme));
+  const [page, setPage] = useState(() => getPage(initialPage));
   const [loadingTo, setLoadingTo] = useState(null); // page we are loading, or null
   const currentPage = useRef(page);
   const timer = useRef(null);
