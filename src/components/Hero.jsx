@@ -35,7 +35,7 @@ export default function Hero() {
             <img
               src={profile.portrait}
               alt={`Portrait of ${profile.name}`}
-              fetchPriority="high"
+              fetchpriority="high"
               decoding="async"
               onError={() => setPortraitMissing(true)}
             />

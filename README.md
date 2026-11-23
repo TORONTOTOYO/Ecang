@@ -66,6 +66,11 @@ Upload the `dist` folder to Netlify, Vercel, Firebase Hosting, or GitHub Pages.
 Add your `.env` values in the host's settings (environment variables), and add your website
 address in Firebase: Authentication > Settings > **Authorized domains**.
 
+The production build prerenders the homepage and `/cv/` from the public `content/site` Firestore
+document. Configure `VITE_FIREBASE_API_KEY` and `VITE_FIREBASE_PROJECT_ID` in the build environment
+to include the latest saved content. If Firestore is unavailable during the build, it prerenders
+the default content instead. React hydrates the generated HTML and refreshes content from Firestore.
+
 ## Protected contact form (Vercel)
 
 The public site does not store or display the recipient email. Configure these values in
