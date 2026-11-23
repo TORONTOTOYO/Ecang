@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { useContent } from "../content/ContentContext.jsx";
 import SafeImage from "./SafeImage.jsx";
-import CardList from "./CardList.jsx";
+import Carousel from "./Carousel.jsx";
 import Modal from "./Modal.jsx";
 import Gallery from "./Gallery.jsx";
 
@@ -9,8 +9,10 @@ export default function Work() {
   const { work, projects } = useContent();
   const [openId, setOpenId] = useState(null); // project shown in the pop-up window
   const close = useCallback(() => setOpenId(null), []);
+  const featured = projects[0];
+  const remaining = projects.slice(1);
 
-  if (projects.length === 0) return null;
+  if (!featured) return null;
 
   const project = projects.find((p) => p.id === openId);
   const images = project?.images || [];
@@ -18,31 +20,47 @@ export default function Work() {
   return (
     <section id="work" className="work">
       <div className="section-head">
-        <h2 className="section-title">{work.title}</h2>
+        <div>
+          <span className="work-kicker">Selected work</span>
+          <h2 className="section-title">{work.title}</h2>
+        </div>
         <p>{work.blurb}</p>
       </div>
 
-      {/* One card per project */}
-      <CardList label="Featured work">
-        {projects.map((p, i) => (
-          <article className="card" key={p.id}>
-            <div className="card-media">
-              <SafeImage src={p.cover} alt={`${p.title} cover photo`} index={i} />
-            </div>
-            <div className="card-body">
-              <h3 className="card-title">{p.title}</h3>
-              {p.subtitle && <p className="subtitle">{p.subtitle}</p>}
-              {p.role && <span className="pill">{p.role}</span>}
-              {p.summary && <p className="card-text">{p.summary}</p>}
-              <div className="card-actions">
-                <button className="btn btn-sm" onClick={() => setOpenId(p.id)} aria-haspopup="dialog">
-                  See more
-                </button>
-              </div>
-            </div>
-          </article>
-        ))}
-      </CardList>
+      <article className="work-featured">
+        <SafeImage className="work-featured-image" src={featured.cover} alt={`${featured.title} cover photo`} index={0} />
+        <div className="work-featured-content">
+          <span className="work-featured-label">Featured project</span>
+          <h3>{featured.title}</h3>
+          {featured.subtitle && <p className="work-featured-subtitle">{featured.subtitle}</p>}
+          <p className="work-featured-meta">
+            {[featured.role, featured.year].filter(Boolean).join(" · ")}
+          </p>
+          {featured.summary && <p className="work-featured-summary">{featured.summary}</p>}
+          <button className="work-featured-action" onClick={() => setOpenId(featured.id)} aria-haspopup="dialog">
+            See more <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </article>
+
+      {remaining.length > 0 && (
+        <div className="work-carousel" style={{ "--work-card-count": Math.min(3, remaining.length) }}>
+          <Carousel label="More featured projects">
+            {remaining.map((project, index) => (
+              <article className="work-card" key={project.id}>
+                <SafeImage className="work-card-image" src={project.cover} alt={`${project.title} cover photo`} index={index + 1} />
+                <div className="work-card-body">
+                  <h3>{project.title}</h3>
+                  {project.role && <p className="work-card-meta">{[project.role, project.year].filter(Boolean).join(" · ")}</p>}
+                  <button className="work-card-action" onClick={() => setOpenId(project.id)} aria-haspopup="dialog">
+                    See more <span aria-hidden="true">·</span>
+                  </button>
+                </div>
+              </article>
+            ))}
+          </Carousel>
+        </div>
+      )}
 
       {/* Pop-up window with the gallery and details */}
       {project && (
