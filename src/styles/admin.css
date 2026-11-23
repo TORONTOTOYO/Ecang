@@ -29,17 +29,13 @@
 .adm-brand .logo { flex: none; width: 40px; height: 40px; font-size: 20px; }
 .adm-top-links { display: flex; align-items: center; gap: 18px; flex: none; }
 
-/* ---------- Tabs and Save button (sticky) ---------- */
-.adm-bar { position: sticky; top: 0; z-index: 25; background: var(--cream); border-bottom: 1px solid var(--line); }
-.adm-bar-inner { max-width: 960px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.adm-tabs { max-width: 960px; margin: 0 auto; padding: 0 20px 12px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; min-width: 0; }
-.adm-tabs::-webkit-scrollbar { display: none; }
-.adm-tab {
-  flex: none; padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; scroll-snap-align: start;
-  background: transparent; font: 500 14px var(--font-heading); color: var(--ink); cursor: pointer;
-}
-.adm-tab:hover { background: var(--sand); }
-.adm-tab.active { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+.adm-layout { max-width: 1180px; margin: 0 auto; padding: 26px 20px 80px; display: grid; grid-template-columns: 220px minmax(0, 1fr); align-items: start; gap: 28px; }
+.adm-sidebar { position: sticky; top: 20px; display: grid; gap: 5px; padding: 14px 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--cream); }
+.adm-sidebar-heading { padding: 6px 10px 10px; color: var(--mute); font: 600 11px var(--font-heading); letter-spacing: 0.08em; text-transform: uppercase; }
+.adm-nav-item { width: 100%; padding: 10px 12px; border: 0; border-radius: 8px; background: transparent; color: var(--ink); font: 500 14px var(--font-heading); text-align: left; cursor: pointer; }
+.adm-nav-item:hover { background: var(--sand); }
+.adm-nav-item.active { background: var(--ink); color: var(--cream); }
+.adm-mobile-nav-trigger, .adm-drawer-backdrop { display: none; }
 
 .adm-savebar { display: flex; align-items: center; gap: 14px; flex: none; }
 .adm-savebar .btn:disabled { opacity: 0.4; cursor: default; transform: none; }
@@ -47,9 +43,50 @@
 .adm-status.ok { color: #1f7a4d; }
 .adm-status.error { color: #b3261e; }
 .adm-status.warn { color: #9a5b00; font-weight: 600; }
+.adm-save-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(25, 20, 36, 0.28);
+  animation: adm-save-fade-in 0.16s ease-out;
+}
+.adm-save-dialog {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(400px, 100%);
+  min-height: 84px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--cream);
+  color: var(--ink);
+  box-shadow: 0 20px 60px rgba(25, 20, 36, 0.24);
+  font: 500 15px/1.45 var(--font-body);
+  animation: adm-save-pop-in 0.2s ease-out;
+}
+.adm-save-dialog strong { flex: 1; }
+.adm-save-dialog button { flex: none; padding: 2px 6px; border: 0; background: transparent; color: var(--mute); font-size: 22px; cursor: pointer; }
+.adm-save-spinner {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--line);
+  border-top-color: var(--dusk);
+  border-radius: 50%;
+  animation: adm-save-spin 0.75s linear infinite;
+}
+.adm-save-result { display: grid; flex: none; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: #247748; color: #fff; font-weight: 700; }
+.adm-save-dialog.error .adm-save-result { background: #b3261e; }
+@keyframes adm-save-spin { to { transform: rotate(360deg); } }
+@keyframes adm-save-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes adm-save-pop-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 /* ---------- Page ---------- */
-.adm-main { max-width: 960px; margin: 0 auto; padding: 28px 20px 80px; display: flex; flex-direction: column; gap: 24px; }
+.adm-main { min-width: 0; display: flex; flex-direction: column; gap: 20px; }
 .adm-alert { padding: 14px 18px; border-radius: 14px; background: #fde8e6; border: 1px solid #f3b7b1; color: #8c1d18; font-size: 15px; line-height: 1.5; }
 .adm-panel { background: var(--cream); border: 1px solid var(--line); border-radius: 20px; padding: 28px; }
 .adm-panel h1 { font-size: 26px; }
@@ -149,6 +186,8 @@
 @media (max-width: 900px) {
   .adm-top-inner { flex-wrap: wrap; }
   .adm-top-actions { flex: 1 1 100%; justify-content: flex-start; flex-wrap: wrap; }
+  .adm-layout { grid-template-columns: 190px minmax(0, 1fr); gap: 18px; padding: 20px 16px 70px; }
+  .adm-nav-item { font-size: 13px; }
 }
 
 /* ---------- Phones ---------- */
@@ -158,8 +197,9 @@
   .adm-top-actions .adm-status { grid-column: 1 / -1; text-align: left; }
   .adm-top-actions > a, .adm-top-actions > button { min-width: 0; justify-content: center; text-align: center; white-space: normal; }
   .adm-top-actions > .adm-link { border: 1px solid var(--line); border-radius: 8px; padding: 8px; }
-  .adm-tabs { padding: 0 16px 10px; }
-  .adm-main { padding: 18px 14px 130px; gap: 16px; } /* extra room under the content for the Save bar */
+  .adm-layout { display: block; padding: 18px 14px 100px; }
+  .adm-sidebar { display: none; }
+  .adm-main { gap: 14px; }
   .adm-panel { padding: 18px; border-radius: 16px; }
   .adm-panel h2 { font-size: 18px; }
   .adm-grid-2 { grid-template-columns: 1fr; }
@@ -171,13 +211,6 @@
   .adm-preview { padding: 20px; }
   .adm-preview h3 { font-size: 28px; }
 
-  /* Save bar fixed to the bottom of the screen, easy to reach with a thumb */
-  .adm-savebar {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
-    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-    background: var(--cream); border-top: 1px solid var(--line); box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.08);
-  }
-  .adm-savebar .btn { min-height: 46px; padding: 0 28px; }
   .adm-status { font-size: 13px; }
 
   /* Bigger tap targets for list items */
@@ -188,4 +221,57 @@
   .adm-item-tools .adm-danger { margin-left: auto; }
   .adm-item-body { padding: 4px 14px 18px; }
   .adm-toggle { padding: 14px; }
+  .adm-mobile-nav-trigger {
+    position: fixed;
+    z-index: 45;
+    top: 50%;
+    right: 0;
+    display: block;
+    padding: 12px 8px;
+    transform: translateY(-50%);
+    border: 1px solid var(--line);
+    border-right: 0;
+    border-radius: 10px 0 0 10px;
+    background: var(--ink);
+    color: var(--cream);
+    font: 600 11px var(--font-heading);
+    writing-mode: vertical-rl;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(35, 28, 51, 0.18);
+  }
+  .adm-drawer-backdrop { position: fixed; inset: 0; z-index: 60; display: flex; justify-content: flex-end; background: rgba(25, 20, 36, 0.38); animation: adm-drawer-fade 180ms ease-out both; }
+  .adm-drawer-backdrop.closing { animation: adm-drawer-fade-out 220ms ease-in both; }
+  .adm-drawer { width: min(360px, calc(100vw - 42px)); height: 100%; overflow-y: auto; padding: 18px 16px calc(20px + env(safe-area-inset-bottom)); background: var(--cream); box-shadow: -16px 0 40px rgba(25, 20, 36, 0.18); animation: adm-drawer-slide 240ms cubic-bezier(0.2, 0.75, 0.25, 1) both; }
+  .adm-drawer.closing { animation: adm-drawer-slide-out 220ms ease-in both; }
+  .adm-drawer-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+  .adm-drawer-header h2 { font-size: 18px; }
+  .adm-mobile-nav-close {
+    z-index: 65;
+    right: auto;
+    left: 0;
+    border-right: 1px solid var(--line);
+    border-left: 0;
+    border-radius: 0 10px 10px 0;
+    animation: adm-drawer-tab-in 240ms ease-out both;
+  }
+  .adm-mobile-nav-close.closing { animation: adm-drawer-tab-out 180ms ease-in both; }
+  .adm-drawer-tabs { display: grid; gap: 3px; }
+  .adm-drawer-visibility { display: grid; gap: 8px; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .adm-drawer-visibility h3 { margin-bottom: 2px; font-size: 15px; }
+  .adm-drawer-visibility .adm-toggle { gap: 10px; padding: 10px; border-radius: 10px; }
+  .adm-drawer-visibility .adm-toggle-text strong { font-size: 13px; }
+  .adm-drawer-visibility .adm-toggle-text small { font-size: 11px; }
+  .adm-drawer-save { width: 100%; min-height: 46px; margin-top: 6px; }
+}
+
+@keyframes adm-drawer-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes adm-drawer-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes adm-drawer-slide { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes adm-drawer-slide-out { from { transform: translateX(0); } to { transform: translateX(100%); } }
+@keyframes adm-drawer-tab-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes adm-drawer-tab-out { from { opacity: 1; } to { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .adm-save-dialog-backdrop, .adm-save-dialog, .adm-save-spinner { animation-duration: 0.01ms; }
+  .adm-drawer-backdrop, .adm-drawer, .adm-mobile-nav-close { animation-duration: 0.01ms; }
 }

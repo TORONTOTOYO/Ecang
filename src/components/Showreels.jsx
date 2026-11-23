@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useContent } from "../content/ContentContext.jsx";
 
-const FACEBOOK_HOSTS = new Set(["facebook.com", "www.facebook.com", "m.facebook.com", "fb.watch"]);
+const FACEBOOK_HOSTS = new Set(["facebook.com", "www.facebook.com", "m.facebook.com", "web.facebook.com", "fb.watch"]);
 
 function facebookEmbedUrl(value) {
   try {
     const url = new URL(value);
-    if (url.protocol !== "https:" || !FACEBOOK_HOSTS.has(url.hostname.toLowerCase())) return "";
+    const host = url.hostname.toLowerCase();
+    if (url.protocol !== "https:" || (!FACEBOOK_HOSTS.has(host) && !host.endsWith(".facebook.com"))) return "";
     const embed = new URL("https://www.facebook.com/plugins/video.php");
     embed.searchParams.set("href", url.toString());
     embed.searchParams.set("show_text", "false");
@@ -24,6 +25,7 @@ export default function Showreels() {
   const [inView, setInView] = useState(true);
   const [pageVisible, setPageVisible] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [embedFailed, setEmbedFailed] = useState(false);
   const sectionRef = useRef(null);
   const active = items[activeIndex];
   const embedUrl = useMemo(() => facebookEmbedUrl(active?.facebookUrl), [active?.facebookUrl]);
@@ -32,6 +34,8 @@ export default function Showreels() {
   const selectReel = useCallback((index) => {
     setActiveIndex((index + items.length) % items.length);
   }, [items.length]);
+
+  useEffect(() => setEmbedFailed(false), [active?.facebookUrl]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -76,14 +80,14 @@ export default function Showreels() {
     <section className="showreels" ref={sectionRef} aria-label="Featured video reels">
       <div className={items.length > 1 ? "showreel-stage has-neighbors" : "showreel-stage"} aria-roledescription="carousel">
         {items.length > 1 && (
-          <div className="showreel-side showreel-side-previous" key={previous.id || `previous-${activeIndex}`} aria-hidden="true">
+          <button type="button" className="showreel-side showreel-side-previous" key={previous.id || `previous-${activeIndex}`} onClick={() => selectReel(activeIndex - 1)} aria-label={`Show ${previous.title}`}>
             <span>{previous.title}</span>
-          </div>
+          </button>
         )}
 
         <article className="showreel-current" key={active.id || activeIndex} aria-live="polite">
           <div className="showreel-media">
-            {inView && embedUrl ? (
+            {inView && embedUrl && !embedFailed ? (
               <iframe
                 className="showreel-player"
                 src={embedUrl}
@@ -92,10 +96,12 @@ export default function Showreels() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="strict-origin-when-cross-origin"
+                onError={() => setEmbedFailed(true)}
               />
             ) : (
-              <div className="showreel-unavailable" role="img" aria-label={`${active.title}: Facebook video unavailable`}>
-                {embedUrl ? "Scroll to view this reel" : "Facebook video unavailable"}
+              <div className="showreel-unavailable">
+                <span>{!embedUrl ? "Add a valid Facebook video link in the admin." : !inView ? "Scroll to view this reel" : "The Facebook player could not load."}</span>
+                {embedUrl && inView && <a href={active.facebookUrl} target="_blank" rel="noopener noreferrer">Watch on Facebook</a>}
               </div>
             )}
             <span className="showreel-count">Reel {activeIndex + 1} of {items.length}</span>
@@ -105,17 +111,12 @@ export default function Showreels() {
             <h3>{active.title}</h3>
             {active.description && <p>{active.description}</p>}
           </div>
-          {items.length > 1 && showreels.autoPlay !== false && !reducedMotion && inView && pageVisible && (
-            <div className="showreel-progress" aria-hidden="true" style={{ "--showreel-interval": `${intervalSeconds}s` }}>
-              <span />
-            </div>
-          )}
         </article>
 
         {items.length > 1 && (
-          <div className="showreel-side showreel-side-next" key={next.id || `next-${activeIndex}`} aria-hidden="true">
+          <button type="button" className="showreel-side showreel-side-next" key={next.id || `next-${activeIndex}`} onClick={() => selectReel(activeIndex + 1)} aria-label={`Show ${next.title}`}>
             <span>{next.title}</span>
-          </div>
+          </button>
         )}
       </div>
 

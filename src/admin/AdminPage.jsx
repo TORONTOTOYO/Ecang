@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/admin.css";
 import Loader from "../components/Loader.jsx";
 import Login from "./Login.jsx";
@@ -15,6 +15,7 @@ import ContactSection from "./sections/ContactSection.jsx";
 import SettingsSection from "./sections/SettingsSection.jsx";
 import AppearanceSection from "./sections/AppearanceSection.jsx";
 import BrandLogo from "../components/BrandLogo.jsx";
+import { ToggleField } from "./fields.jsx";
 
 // The admin tabs. To add a tab, add a line here and a section file in ./sections.
 const TABS = [
@@ -83,7 +84,14 @@ function Editor({ user }) {
   const [draft, setDraft] = useState(null);      // content being edited
   const [savedJson, setSavedJson] = useState(""); // what is currently saved
   const [tab, setTab] = useState(TABS[0].id);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [mobileNavClosing, setMobileNavClosing] = useState(false);
+  const mobileNavTimer = useRef(null);
   const [status, setStatus] = useState({ kind: "", text: "" });
+  const [saveNotice, setSaveNotice] = useState(null);
+  const saveNoticeTimer = useRef(null);
+
+  useEffect(() => () => clearTimeout(saveNoticeTimer.current), []);
 
   // Load the latest saved content
   useEffect(() => {
@@ -106,20 +114,42 @@ function Editor({ user }) {
   }, [dirty]);
 
   const update = (path, value) => setDraft((current) => setIn(current, path, value));
+  const closeMobileNav = () => {
+    if (mobileNavClosing) return;
+    setMobileNavClosing(true);
+    clearTimeout(mobileNavTimer.current);
+    mobileNavTimer.current = setTimeout(() => {
+      setMobileNavOpen(false);
+      setMobileNavClosing(false);
+    }, 240);
+  };
+  const selectTab = (id) => {
+    setTab(id);
+    if (mobileNavOpen) closeMobileNav();
+  };
+
+  useEffect(() => () => clearTimeout(mobileNavTimer.current), []);
 
   const save = async () => {
+    clearTimeout(saveNoticeTimer.current);
     setStatus({ kind: "busy", text: "Saving..." });
+    setSaveNotice({ kind: "loading", text: "Saving your changes..." });
     try {
       await saveAdminContent(draft);
       setSavedJson(JSON.stringify(draft));
       setStatus({ kind: "ok", text: "Saved. Your website is updated." });
+      setSaveNotice({ kind: "success", text: "Changes saved successfully." });
+      saveNoticeTimer.current = setTimeout(() => setSaveNotice(null), 2600);
     } catch (error) {
+      const message = error.code === "permission-denied"
+        ? `Not allowed to save. Signed in as ${user.email}, project "${firebaseConfig.projectId}". In Firebase > Firestore Database > Rules, the email must match this exactly and the rules must be published.`
+        : `Could not save: ${error.message}`;
       setStatus({
         kind: "error",
-        text: error.code === "permission-denied"
-          ? `Not allowed to save. Signed in as ${user.email}, project "${firebaseConfig.projectId}". In Firebase > Firestore Database > Rules, the email must match this exactly and the rules must be published.`
-          : `Could not save: ${error.message}`,
+        text: message,
       });
+      setSaveNotice({ kind: "error", text: message });
+      saveNoticeTimer.current = setTimeout(() => setSaveNotice(null), 6000);
     }
   };
 
@@ -159,18 +189,86 @@ function Editor({ user }) {
           </div>
         </div>
 
-        <nav className="adm-tabs" aria-label="Sections">
-          {TABS.map((t) => (
-            <button key={t.id} className={t.id === tab ? "adm-tab active" : "adm-tab"} onClick={() => setTab(t.id)}>
-              {t.label}
+      </header>
+
+      <div className="adm-layout">
+        <nav className="adm-sidebar" aria-label="Admin sections">
+          <span className="adm-sidebar-heading">Manage portfolio</span>
+          {TABS.map((item) => (
+            <button key={item.id} className={item.id === tab ? "adm-nav-item active" : "adm-nav-item"} onClick={() => selectTab(item.id)}>
+              {item.label}
             </button>
           ))}
         </nav>
-      </header>
 
-      <main className="adm-main">
-        <Section content={draft} update={update} onReset={reset} />
-      </main>
+        <main className="adm-main">
+          <Section content={draft} update={update} onReset={reset} />
+        </main>
+      </div>
+
+      <button
+        className="adm-mobile-nav-trigger"
+        type="button"
+        aria-expanded={mobileNavOpen}
+        aria-controls="adm-mobile-navigation"
+        onClick={() => {
+          clearTimeout(mobileNavTimer.current);
+          setMobileNavClosing(false);
+          setMobileNavOpen(true);
+        }}
+      >
+        Sections
+      </button>
+
+      {mobileNavOpen && (
+        <div className={mobileNavClosing ? "adm-drawer-backdrop closing" : "adm-drawer-backdrop"} onMouseDown={(event) => {
+          if (event.target === event.currentTarget) closeMobileNav();
+        }}>
+          <aside className={mobileNavClosing ? "adm-drawer closing" : "adm-drawer"} id="adm-mobile-navigation" aria-label="Portfolio navigation">
+            <div className="adm-drawer-header">
+              <h2>Portfolio settings</h2>
+            </div>
+            <nav className="adm-drawer-tabs" aria-label="Admin sections">
+              {TABS.map((item) => (
+                <button key={item.id} className={item.id === tab ? "adm-nav-item active" : "adm-nav-item"} onClick={() => selectTab(item.id)}>
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+            <div className="adm-drawer-visibility">
+              <h3>Visible sections</h3>
+              <ToggleField label="Home introduction" checked={draft.sections.home} onChange={(value) => update(["sections", "home"], value)} />
+              <ToggleField label="About me" checked={draft.sections.about} onChange={(value) => update(["sections", "about"], value)} />
+              <ToggleField label="Showreels" checked={draft.sections.showreels} onChange={(value) => update(["sections", "showreels"], value)} />
+              <ToggleField label="Projects" checked={draft.sections.work} onChange={(value) => update(["sections", "work"], value)} />
+              <ToggleField label="Certifications" checked={draft.sections.certifications} onChange={(value) => update(["sections", "certifications"], value)} />
+              <ToggleField label="Contact" checked={draft.sections.contact} onChange={(value) => update(["sections", "contact"], value)} />
+              <button type="button" className="btn adm-drawer-save" onClick={save} disabled={!dirty || status.kind === "busy"}>
+                Save changes
+              </button>
+            </div>
+          </aside>
+          <button type="button" className={mobileNavClosing ? "adm-mobile-nav-trigger adm-mobile-nav-close closing" : "adm-mobile-nav-trigger adm-mobile-nav-close"} onClick={closeMobileNav}>
+            Close
+          </button>
+        </div>
+      )}
+
+      {saveNotice && (
+        <div className="adm-save-dialog-backdrop">
+          <div className={`adm-save-dialog ${saveNotice.kind}`} role={saveNotice.kind === "error" ? "alert" : "status"} aria-live="polite">
+            {saveNotice.kind === "loading" ? (
+              <span className="adm-save-spinner" aria-hidden="true" />
+            ) : (
+              <span className="adm-save-result" aria-hidden="true">{saveNotice.kind === "success" ? "✓" : "!"}</span>
+            )}
+            <strong>{saveNotice.text}</strong>
+            {saveNotice.kind !== "loading" && (
+              <button type="button" onClick={() => setSaveNotice(null)} aria-label="Dismiss notification">×</button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
