@@ -71,6 +71,9 @@ document. Configure `VITE_FIREBASE_API_KEY` and `VITE_FIREBASE_PROJECT_ID` in th
 to include the latest saved content. If Firestore is unavailable during the build, it prerenders
 the default content instead. React hydrates the generated HTML and refreshes content from Firestore.
 
+Showreels are managed in the admin **Showreels** tab. Add a public, embed-enabled Facebook video or
+reel URL; private Facebook videos cannot be played in the site carousel.
+
 ## Protected contact form (Vercel)
 
 The public site does not store or display the recipient email. Configure these values in

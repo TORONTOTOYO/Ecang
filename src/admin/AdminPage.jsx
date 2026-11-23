@@ -8,6 +8,7 @@ import { defaultContent } from "../content/defaultContent.js";
 import { setIn } from "./helpers.js";
 import HomeSection from "./sections/HomeSection.jsx";
 import ProjectsSection from "./sections/ProjectsSection.jsx";
+import ShowreelsSection from "./sections/ShowreelsSection.jsx";
 import CertificationsSection from "./sections/CertificationsSection.jsx";
 import CvSection from "./sections/CvSection.jsx";
 import ContactSection from "./sections/ContactSection.jsx";
@@ -18,6 +19,7 @@ import BrandLogo from "../components/BrandLogo.jsx";
 // The admin tabs. To add a tab, add a line here and a section file in ./sections.
 const TABS = [
   { id: "home", label: "Home and About", Section: HomeSection },
+  { id: "showreels", label: "Showreels", Section: ShowreelsSection },
   { id: "projects", label: "Projects", Section: ProjectsSection },
   { id: "certs", label: "Certifications", Section: CertificationsSection },
   { id: "cv", label: "CV", Section: CvSection },

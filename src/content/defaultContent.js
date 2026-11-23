@@ -35,6 +35,14 @@ const work = {
   blurb: "Films and projects I have been part of. Open any card to see more photos and details.",
 };
 
+const showreels = {
+  title: "Watch my reels",
+  blurb: "A few short reels from acting to behind the camera. They play one by one, or pick the one you want.",
+  autoPlay: true,
+  intervalSeconds: 8,
+  items: [],
+};
+
 // "cover" is the card image. "images" are shown in the gallery when you press See more.
 const projects = [
   {
@@ -107,7 +115,7 @@ const theme = {
 };
 
 // Which sections to show on the website (admin panel > Settings)
-const sections = { home: true, about: true, work: true, certifications: true, contact: true };
+const sections = { home: true, about: true, showreels: true, work: true, certifications: true, contact: true };
 
 export const defaultContent = {
   theme,
@@ -117,6 +125,7 @@ export const defaultContent = {
   about,
   background,
   work,
+  showreels,
   projects,
   certifications,
   cv,

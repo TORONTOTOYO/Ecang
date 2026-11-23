@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function Modal({ onClose, label, children }) {
+export default function Modal({ onClose, label, children, className = "" }) {
   const closeRef = useRef(null);
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
@@ -27,7 +27,7 @@ export default function Modal({ onClose, label, children }) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="modal" role="dialog" aria-modal="true" aria-label={label}>
+      <div className={`modal ${className}`.trim()} role="dialog" aria-modal="true" aria-label={label}>
         <button ref={closeRef} className="modal-close" onClick={onClose} aria-label="Close">
           ×
         </button>
