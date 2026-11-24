@@ -278,3 +278,238 @@
   .adm-save-dialog-backdrop, .adm-save-dialog, .adm-save-spinner { animation-duration: 0.01ms; }
   .adm-drawer-backdrop, .adm-drawer, .adm-mobile-nav-close { animation-duration: 0.01ms; }
 }
+
+/* ---------- Session Warning ---------- */
+.session-warning-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(25, 20, 36, 0.4);
+  animation: session-warning-fade-in 0.25s ease-out;
+}
+.session-warning-backdrop.closing {
+  animation: session-warning-fade-out 0.25s ease-in forwards;
+}
+
+.session-warning-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: min(360px, 100%);
+  padding: 20px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--cream);
+  box-shadow: 0 10px 30px rgba(25, 20, 36, 0.2);
+  animation: session-warning-pop-in 0.25s cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+.session-warning-modal.closing {
+  animation: session-warning-pop-out 0.25s ease-in forwards;
+}
+
+.session-warning-icon {
+  font-size: 32px;
+  animation: session-warning-pulse 2s ease-in-out infinite;
+}
+
+.session-warning-modal h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.session-warning-modal > p {
+  margin: 0;
+  color: var(--mute);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.session-warning-countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(233, 165, 59, 0.08);
+  border: 1px solid var(--amber);
+  width: 100%;
+}
+
+.countdown-time {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--amber);
+  font-family: "Courier New", monospace;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.countdown-label {
+  font-size: 11px;
+  color: var(--mute);
+  font-weight: 500;
+}
+
+.session-warning-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.session-warning-btn {
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 500 13px var(--font-heading);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.session-warning-btn:hover {
+  background: var(--sand);
+  border-color: var(--amber);
+}
+
+.session-warning-btn:active {
+  transform: scale(0.96);
+}
+
+.session-warning-resume {
+  background: var(--amber);
+  color: var(--on-accent);
+  border-color: var(--amber);
+  font-weight: 600;
+}
+
+.session-warning-resume:hover {
+  background: #d9941f;
+  border-color: #d9941f;
+}
+
+.session-warning-logout {
+  color: #b3261e;
+  border-color: #b3261e;
+  background: #fff;
+}
+
+.session-warning-logout:hover {
+  background: #fde8e6;
+  border-color: #b3261e;
+}
+
+.session-warning-hint {
+  margin: 0;
+  font-size: 11px;
+  color: var(--mute);
+  text-align: center;
+  font-style: italic;
+}
+
+@keyframes session-warning-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes session-warning-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes session-warning-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes session-warning-pop-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+}
+
+@keyframes session-warning-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@media (max-width: 640px) {
+  .session-warning-modal {
+    width: calc(100% - 16px);
+    max-width: 340px;
+    padding: 16px 14px;
+    gap: 10px;
+  }
+
+  .session-warning-icon {
+    font-size: 28px;
+  }
+
+  .session-warning-modal h2 {
+    font-size: 15px;
+  }
+
+  .session-warning-modal > p {
+    font-size: 12px;
+  }
+
+  .session-warning-countdown {
+    padding: 12px 14px;
+    gap: 4px;
+  }
+
+  .countdown-time {
+    font-size: 32px;
+  }
+
+  .countdown-label {
+    font-size: 10px;
+  }
+
+  .session-warning-actions {
+    gap: 6px;
+    margin-top: 2px;
+  }
+
+  .session-warning-btn {
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+
+  .session-warning-hint {
+    font-size: 10px;
+  }
+}

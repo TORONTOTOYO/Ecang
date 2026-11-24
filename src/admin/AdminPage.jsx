@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "../styles/admin.css";
 import Loader from "../components/Loader.jsx";
 import Login from "./Login.jsx";
@@ -17,6 +17,8 @@ import SettingsSection from "./sections/SettingsSection.jsx";
 import AppearanceSection from "./sections/AppearanceSection.jsx";
 import BrandLogo from "../components/BrandLogo.jsx";
 import { ToggleField } from "./fields.jsx";
+import { useSessionTimeout } from "./useSessionTimeout.js";
+import SessionWarning from "./SessionWarning.jsx";
 
 // The admin tabs. To add a tab, add a line here and a section file in ./sections.
 const TABS = [
@@ -91,6 +93,12 @@ function Editor({ user }) {
   const [status, setStatus] = useState({ kind: "", text: "" });
   const [saveNotice, setSaveNotice] = useState(null);
   const saveNoticeTimer = useRef(null);
+
+  const handleSessionEnd = useCallback(() => {
+    logout();
+  }, []);
+
+  const { showWarning, timeRemaining, resumeSession } = useSessionTimeout(handleSessionEnd);
 
   useEffect(() => () => clearTimeout(saveNoticeTimer.current), []);
 
@@ -278,6 +286,13 @@ function Editor({ user }) {
           </div>
         </div>
       )}
+
+      <SessionWarning
+        show={showWarning}
+        timeRemaining={timeRemaining}
+        onResume={resumeSession}
+        onExpired={logout}
+      />
     </div>
   );
 }
