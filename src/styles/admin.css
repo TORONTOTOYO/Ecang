@@ -123,6 +123,9 @@
 .adm-toggle input:focus-visible + .adm-switch { outline: 3px solid rgba(74, 61, 120, 0.4); outline-offset: 2px; }
 .adm-toggle-text strong { display: block; font: 500 15px var(--font-heading); }
 .adm-toggle-text small { color: var(--mute); font-size: 13px; }
+.adm-section-order { display: flex; align-items: center; gap: 8px; }
+.adm-section-order .adm-toggle { flex: 1; min-width: 0; }
+.adm-section-order .adm-item-tools { width: auto; padding: 0; }
 
 /* ---------- Appearance ---------- */
 .adm-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }

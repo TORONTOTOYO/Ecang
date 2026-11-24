@@ -19,6 +19,7 @@ const AdminPage = lazy(() => import("./admin/AdminPage.jsx"));
 // How long the loading screen shows when switching pages (milliseconds)
 const LOADING_TIME = 800;
 const LOADING_LABELS = { cv: "Opening CV", home: "Back to portfolio", admin: "Opening admin" };
+const SECTION_COMPONENTS = { home: Hero, about: About, work: Work, offCamera: OffCamera, certifications: Certifications, contact: Contact };
 
 // Pages, chosen by the URL hash: #/cv, #/admin, or anything else for the portfolio.
 function getPage(initialPage = "home") {
@@ -34,7 +35,7 @@ function getPage(initialPage = "home") {
 
 export default function App({ initialPage, initialMode } = {}) {
   const contentReady = useContentReady();
-  const { theme, sections } = useContent();
+  const { theme, sections, sectionOrder } = useContent();
   const [mode, setMode] = useState(() => initialMode || getThemeMode(theme));
   const [page, setPage] = useState(() => getPage(initialPage));
   const [loadingTo, setLoadingTo] = useState(null); // page we are loading, or null
@@ -119,12 +120,10 @@ export default function App({ initialPage, initialMode } = {}) {
     <>
       <Nav />
       <main>
-        {sections.home && <Hero />}
-        {sections.about && <About />}
-        {sections.work && <Work />}
-        {sections.offCamera && <OffCamera />}
-        {sections.certifications && <Certifications />}
-        {sections.contact && <Contact />}
+        {sectionOrder.map((id) => {
+          const Section = SECTION_COMPONENTS[id];
+          return sections[id] ? <Section key={id} /> : null;
+        })}
       </main>
       {loader}
     </>

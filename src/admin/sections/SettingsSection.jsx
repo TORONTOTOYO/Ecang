@@ -1,15 +1,30 @@
 import { Panel, TextField, ToggleField } from "../fields.jsx";
+import { SECTION_DEFINITIONS } from "../../content/sections.js";
 
 export default function SettingsSection({ content, update, onReset }) {
+  const moveSection = (index, step) => {
+    const next = [...content.sectionOrder];
+    const target = index + step;
+    if (target < 0 || target >= next.length) return;
+    [next[index], next[target]] = [next[target], next[index]];
+    update(["sectionOrder"], next);
+  };
+
   return (
     <>
-      <Panel title="Website sections" hint="Turn sections on or off. Hidden sections are removed from the portfolio and its navigation.">
-        <ToggleField label="Home introduction" checked={content.sections.home} onChange={(value) => update(["sections", "home"], value)} />
-        <ToggleField label="About me" checked={content.sections.about} onChange={(value) => update(["sections", "about"], value)} />
-        <ToggleField label="Projects" checked={content.sections.work} onChange={(value) => update(["sections", "work"], value)} />
-        <ToggleField label="Erica's skill" checked={content.sections.offCamera} onChange={(value) => update(["sections", "offCamera"], value)} />
-        <ToggleField label="Certifications" checked={content.sections.certifications} onChange={(value) => update(["sections", "certifications"], value)} />
-        <ToggleField label="Contact" checked={content.sections.contact} onChange={(value) => update(["sections", "contact"], value)} />
+      <Panel title="Sections" hint="Turn sections on or off and use the arrows to change their order. Hidden sections are removed from the portfolio and its navigation.">
+        {content.sectionOrder.map((id, index) => {
+          const section = SECTION_DEFINITIONS.find((item) => item.id === id);
+          return (
+            <div className="adm-section-order" key={id}>
+              <ToggleField label={section.label} checked={content.sections[id]} onChange={(value) => update(["sections", id], value)} />
+              <div className="adm-item-tools">
+                <button type="button" onClick={() => moveSection(index, -1)} disabled={index === 0} aria-label={`Move ${section.label} up`}>↑</button>
+                <button type="button" onClick={() => moveSection(index, 1)} disabled={index === content.sectionOrder.length - 1} aria-label={`Move ${section.label} down`}>↓</button>
+              </div>
+            </div>
+          );
+        })}
       </Panel>
       <Panel title="Display">
         <TextField

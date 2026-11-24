@@ -50,7 +50,7 @@ Two layers keep everyone else out:
 1. Open http://localhost:5173/#/admin and press **Continue with Google**. Choose your admin Gmail.
 2. Pick a tab: **Home and About**, **Projects**, **Erica's skill**, **Certifications**, **CV**, **Contact**, **Appearance**, **Settings**.
 3. Add, edit, reorder (arrows), or delete items. Click an item's name to open it.
-4. In **Settings**, switch portfolio sections on or off. In **Appearance**, choose colors and fonts; day/night mode changes automatically at 6am and 6pm local time.
+4. In **Settings > Sections**, switch portfolio sections on or off and use the arrows to reorder them. In **Appearance**, choose colors and fonts; day/night mode changes automatically at 6am and 6pm local time.
 5. For photos, paste an image URL or use a file in `public/images/`. In **Projects**, paste one public HTTPS Cloudinary video delivery URL into a project's video field; its duration is read from the video automatically.
 6. Press **Save changes**. The website updates right away for new visitors.
 

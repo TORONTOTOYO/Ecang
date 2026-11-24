@@ -15,6 +15,7 @@
   justify-content: space-between;
   padding: 28px var(--pad);
 }
+.nav.nav-in-flow { position: relative; background: var(--cream); }
 .logo {
   width: 44px;
   height: 44px;

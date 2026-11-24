@@ -1,4 +1,5 @@
 import { defaultContent } from "./defaultContent.js";
+import { normalizeSectionOrder } from "./sections.js";
 
 // Helpers shared by the website and the admin panel (no Firebase code here).
 const CACHE_KEY = "portfolio-content-v1";
@@ -15,6 +16,7 @@ export function normalize(saved) {
     else if (isObject(base) && isObject(value)) result[key] = { ...base, ...value };
     else result[key] = value;
   }
+  result.sectionOrder = normalizeSectionOrder(result.sectionOrder);
   if (isObject(result.contact)) {
     result.contact = { ...result.contact };
     delete result.contact.email;

@@ -1,17 +1,10 @@
 import { useState } from "react";
 import { useContent } from "../content/ContentContext.jsx";
 import BrandLogo from "./BrandLogo.jsx";
-
-const LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "About me", href: "#about" },
-  { label: "Projects", href: "#work" },
-  { label: "Off camera", href: "#off-camera" },
-  { label: "Certifications", href: "#certifications" },
-];
+import { SECTION_DEFINITIONS } from "../content/sections.js";
 
 export default function Nav() {
-  const { projects, certifications, sections, offCamera } = useContent();
+  const { projects, certifications, sections, sectionOrder, offCamera } = useContent();
   const [open, setOpen] = useState(false); // is the mobile menu open?
   const close = () => setOpen(false);
 
@@ -22,15 +15,18 @@ export default function Nav() {
     "#off-camera": !sections.offCamera || (!offCamera.bagImage && !offCamera.items?.length),
     "#certifications": !sections.certifications || certifications.items.length === 0,
   };
+  const firstSection = sectionOrder.find((id) => sections[id]);
+  const links = sectionOrder.map((id) => SECTION_DEFINITIONS.find((section) => section.id === id))
+    .filter((section) => section.href && !hidden[section.href]);
 
   return (
-    <header className="nav">
+    <header className={firstSection === "home" ? "nav" : "nav nav-in-flow"}>
       <a href="#home" className="logo" aria-label="Home"><BrandLogo className="brand-content" /></a>
 
       <ul id="menu" className={open ? "nav-links open" : "nav-links"}>
-        {LINKS.filter((link) => !hidden[link.href]).map((link) => (
-          <li key={link.label}>
-            <a href={link.href} onClick={close}>{link.label}</a>
+        {links.map((link) => (
+          <li key={link.id}>
+            <a href={link.href} onClick={close}>{link.navLabel}</a>
           </li>
         ))}
       </ul>

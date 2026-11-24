@@ -1,3 +1,5 @@
+import { DEFAULT_SECTION_ORDER } from "./sections.js";
+
 // DEFAULT CONTENT
 // This is what the site shows when Firebase is not set up yet, or before the admin
 // saves anything. Once you save in the admin panel (#/admin), the live content
@@ -128,6 +130,7 @@ const sections = { home: true, about: true, showreels: true, work: true, offCame
 export const defaultContent = {
   theme,
   sections,
+  sectionOrder: DEFAULT_SECTION_ORDER,
   settings,
   profile,
   about,
