@@ -2,8 +2,8 @@ import { useState } from "react";
 import SafeImage from "./SafeImage.jsx";
 
 // Photo gallery: one large photo with arrows, and small thumbnails below.
-export default function Gallery({ images, title }) {
-  const [index, setIndex] = useState(0); // which photo is showing
+export default function Gallery({ images, title, initialIndex = 0 }) {
+  const [index, setIndex] = useState(initialIndex); // which photo is showing
   const count = images.length;
   if (!count) return null;
 

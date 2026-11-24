@@ -6,8 +6,8 @@ export default function SettingsSection({ content, update, onReset }) {
       <Panel title="Website sections" hint="Turn sections on or off. Hidden sections are removed from the portfolio and its navigation.">
         <ToggleField label="Home introduction" checked={content.sections.home} onChange={(value) => update(["sections", "home"], value)} />
         <ToggleField label="About me" checked={content.sections.about} onChange={(value) => update(["sections", "about"], value)} />
-        <ToggleField label="Showreels" checked={content.sections.showreels} onChange={(value) => update(["sections", "showreels"], value)} />
         <ToggleField label="Projects" checked={content.sections.work} onChange={(value) => update(["sections", "work"], value)} />
+        <ToggleField label="Erica's skill" checked={content.sections.offCamera} onChange={(value) => update(["sections", "offCamera"], value)} />
         <ToggleField label="Certifications" checked={content.sections.certifications} onChange={(value) => update(["sections", "certifications"], value)} />
         <ToggleField label="Contact" checked={content.sections.contact} onChange={(value) => update(["sections", "contact"], value)} />
       </Panel>

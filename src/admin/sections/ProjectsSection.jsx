@@ -1,5 +1,6 @@
 import { Panel, TextField, TextArea, ImageField, ListEditor, StringListEditor } from "../fields.jsx";
 import { newId } from "../helpers.js";
+import { isCloudinaryVideoUrl } from "../../content/reel.js";
 
 export default function ProjectsSection({ content, update }) {
   const { work, projects } = content;
@@ -11,7 +12,15 @@ export default function ProjectsSection({ content, update }) {
         <TextArea label="Short line under the title" rows={2} value={work.blurb} onChange={(v) => update(["work", "blurb"], v)} />
       </Panel>
 
-      <Panel title="Projects" hint="Each project becomes a card. Visitors press See more to open its photos and details.">
+      {content.showreels?.items?.length > 0 && (
+        <Panel title="Previous videos" hint="Existing videos are not assigned automatically. Copy a Cloudinary video URL into the appropriate project below. Facebook links are no longer supported.">
+          {content.showreels.items.map((reel, index) => (
+            <p key={reel.id || index}>{reel.title || `Video ${index + 1}`}: {reel.videoUrl || reel.facebookUrl || "No URL"}</p>
+          ))}
+        </Panel>
+      )}
+
+      <Panel title="Projects" hint="Each project can have one Cloudinary video, plus photos and details.">
         <ListEditor
           items={projects}
           onChange={(v) => update(["projects"], v)}
@@ -23,6 +32,8 @@ export default function ProjectsSection({ content, update }) {
             subtitle: "",
             role: "",
             year: "",
+            location: "",
+            reelUrl: "",
             summary: "",
             description: [""],
             cover: "",
@@ -37,6 +48,18 @@ export default function ProjectsSection({ content, update }) {
                 <TextField label="Your role" value={project.role} onChange={(v) => patch({ role: v })} />
                 <TextField label="Year" value={project.year} onChange={(v) => patch({ year: v })} />
               </div>
+              <TextField label="Location (optional)" value={project.location} onChange={(v) => patch({ location: v })} />
+              <TextField
+                label="Video URL (Cloudinary only)"
+                type="url"
+                value={project.reelUrl}
+                onChange={(v) => patch({ reelUrl: v })}
+                placeholder="https://res.cloudinary.com/.../video/upload/..."
+                hint={project.reelUrl && !isCloudinaryVideoUrl(project.reelUrl.trim())
+                  ? "Enter a valid HTTPS Cloudinary video delivery URL before saving."
+                  : "Paste one public Cloudinary video delivery URL. Duration is detected automatically."}
+                aria-invalid={Boolean(project.reelUrl && !isCloudinaryVideoUrl(project.reelUrl.trim()))}
+              />
               <TextArea label="Short summary (shown on the card)" rows={2} value={project.summary} onChange={(v) => patch({ summary: v })} />
               <StringListEditor
                 label="Description (shown after See more)"
@@ -45,6 +68,7 @@ export default function ProjectsSection({ content, update }) {
                 onChange={(v) => patch({ description: v })}
               />
               <ImageField label="Cover photo (card image)" value={project.cover} onChange={(v) => patch({ cover: v })} />
+              <p className="adm-hint">If no cover photo is set, the first frame of the Cloudinary video is used.</p>
 
               <div className="adm-field">
                 <span className="adm-label">Gallery photos</span>

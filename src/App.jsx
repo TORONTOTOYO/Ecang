@@ -2,8 +2,8 @@ import { lazy, Suspense, useState, useEffect, useRef } from "react";
 import Nav from "./components/Nav.jsx";
 import Hero from "./components/Hero.jsx";
 import About from "./components/About.jsx";
-import Showreels from "./components/Showreels.jsx";
 import Work from "./components/Work.jsx";
+import OffCamera from "./components/OffCamera.jsx";
 import Certifications from "./components/Certifications.jsx";
 import Contact from "./components/Contact.jsx";
 import CvPage from "./components/CvPage.jsx";
@@ -121,8 +121,8 @@ export default function App({ initialPage, initialMode } = {}) {
       <main>
         {sections.home && <Hero />}
         {sections.about && <About />}
-        {sections.showreels && <Showreels />}
         {sections.work && <Work />}
+        {sections.offCamera && <OffCamera />}
         {sections.certifications && <Certifications />}
         {sections.contact && <Contact />}
       </main>

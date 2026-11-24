@@ -32,7 +32,7 @@ const background = [
 
 const work = {
   title: "Featured work",
-  blurb: "Films and projects I have been part of. Open any card to see more photos and details.",
+  blurb: "Films and projects I have been part of. Open any card to see videos, photos, and details.",
 };
 
 const showreels = {
@@ -40,6 +40,12 @@ const showreels = {
   blurb: "A few short reels from acting to behind the camera. They play one by one, or pick the one you want.",
   autoPlay: true,
   intervalSeconds: 8,
+  items: [],
+};
+
+const offCamera = {
+  bagImage: "",
+  bagTitle: "Erica's skills",
   items: [],
 };
 
@@ -51,6 +57,8 @@ const projects = [
     subtitle: "Sa Pagdating ng Takipsilim",
     role: "Production staff and actress",
     year: "",
+    location: "",
+    reelUrl: "",
     summary: "A short film about love and loss as the day turns to dusk.",
     description: [],
     cover: "/images/projects/edel/cover.jpg",
@@ -115,7 +123,7 @@ const theme = {
 };
 
 // Which sections to show on the website (admin panel > Settings)
-const sections = { home: true, about: true, showreels: true, work: true, certifications: true, contact: true };
+const sections = { home: true, about: true, showreels: true, work: true, offCamera: true, certifications: true, contact: true };
 
 export const defaultContent = {
   theme,
@@ -127,6 +135,7 @@ export const defaultContent = {
   work,
   showreels,
   projects,
+  offCamera,
   certifications,
   cv,
   contact,

@@ -6,11 +6,12 @@ const LINKS = [
   { label: "Home", href: "#home" },
   { label: "About me", href: "#about" },
   { label: "Projects", href: "#work" },
+  { label: "Off camera", href: "#off-camera" },
   { label: "Certifications", href: "#certifications" },
 ];
 
 export default function Nav() {
-  const { projects, certifications, sections } = useContent();
+  const { projects, certifications, sections, offCamera } = useContent();
   const [open, setOpen] = useState(false); // is the mobile menu open?
   const close = () => setOpen(false);
 
@@ -18,6 +19,7 @@ export default function Nav() {
   const hidden = {
     "#about": !sections.about,
     "#work": !sections.work || projects.length === 0,
+    "#off-camera": !sections.offCamera || (!offCamera.bagImage && !offCamera.items?.length),
     "#certifications": !sections.certifications || certifications.items.length === 0,
   };
 

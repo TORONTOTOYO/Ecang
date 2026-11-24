@@ -8,7 +8,8 @@ import { defaultContent } from "../content/defaultContent.js";
 import { setIn } from "./helpers.js";
 import HomeSection from "./sections/HomeSection.jsx";
 import ProjectsSection from "./sections/ProjectsSection.jsx";
-import ShowreelsSection from "./sections/ShowreelsSection.jsx";
+import OffCameraSection from "./sections/OffCameraSection.jsx";
+import { isCloudinaryVideoUrl } from "../content/reel.js";
 import CertificationsSection from "./sections/CertificationsSection.jsx";
 import CvSection from "./sections/CvSection.jsx";
 import ContactSection from "./sections/ContactSection.jsx";
@@ -20,8 +21,8 @@ import { ToggleField } from "./fields.jsx";
 // The admin tabs. To add a tab, add a line here and a section file in ./sections.
 const TABS = [
   { id: "home", label: "Home and About", Section: HomeSection },
-  { id: "showreels", label: "Showreels", Section: ShowreelsSection },
   { id: "projects", label: "Projects", Section: ProjectsSection },
+  { id: "offCamera", label: "Erica's skill", Section: OffCameraSection },
   { id: "certs", label: "Certifications", Section: CertificationsSection },
   { id: "cv", label: "CV", Section: CvSection },
   { id: "contact", label: "Contact", Section: ContactSection },
@@ -132,6 +133,14 @@ function Editor({ user }) {
 
   const save = async () => {
     clearTimeout(saveNoticeTimer.current);
+    const invalidProject = draft.projects.find((project) => project.reelUrl && !isCloudinaryVideoUrl(project.reelUrl.trim()));
+    if (invalidProject) {
+      const message = `The video URL for "${invalidProject.title || "Untitled"}" must be a valid HTTPS Cloudinary video delivery URL.`;
+      setStatus({ kind: "error", text: message });
+      setSaveNotice({ kind: "error", text: message });
+      setTab("projects");
+      return;
+    }
     setStatus({ kind: "busy", text: "Saving..." });
     setSaveNotice({ kind: "loading", text: "Saving your changes..." });
     try {
@@ -239,8 +248,8 @@ function Editor({ user }) {
               <h3>Visible sections</h3>
               <ToggleField label="Home introduction" checked={draft.sections.home} onChange={(value) => update(["sections", "home"], value)} />
               <ToggleField label="About me" checked={draft.sections.about} onChange={(value) => update(["sections", "about"], value)} />
-              <ToggleField label="Showreels" checked={draft.sections.showreels} onChange={(value) => update(["sections", "showreels"], value)} />
               <ToggleField label="Projects" checked={draft.sections.work} onChange={(value) => update(["sections", "work"], value)} />
+              <ToggleField label="Erica's skill" checked={draft.sections.offCamera} onChange={(value) => update(["sections", "offCamera"], value)} />
               <ToggleField label="Certifications" checked={draft.sections.certifications} onChange={(value) => update(["sections", "certifications"], value)} />
               <ToggleField label="Contact" checked={draft.sections.contact} onChange={(value) => update(["sections", "contact"], value)} />
               <button type="button" className="btn adm-drawer-save" onClick={save} disabled={!dirty || status.kind === "busy"}>
