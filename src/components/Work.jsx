@@ -43,7 +43,7 @@ export default function Work() {
       </article>
 
       {remaining.length > 0 && (
-        <div className="work-carousel" style={{ "--work-card-count": Math.min(3, remaining.length) }}>
+        <div className="work-carousel">
           <Carousel label="More featured projects">
             {remaining.map((project, index) => (
               <article className="work-card" key={project.id}>

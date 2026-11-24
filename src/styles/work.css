@@ -77,7 +77,8 @@
    cursor: pointer;
 }
 
-.work-carousel .carousel-track { --cols: var(--work-card-count); --gap: 14px; }
+.work-carousel .carousel-track { --cols: 3; --gap: 14px; }
+.work-carousel { margin-top: 24px; }
 .work-card {
    display: flex;
    min-width: 0;
@@ -184,7 +185,7 @@
 .certs .card-media > * { object-fit: contain; background: #fff; }
 
 @media (max-width: 1000px) {
-   .work-carousel .carousel-track { --cols: 2; }
+   .work-carousel .carousel-track { --cols: 1; }
    .cert-row { grid-template-columns: 64px minmax(0, 1fr) 44px auto; gap: 12px; }
    .cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
