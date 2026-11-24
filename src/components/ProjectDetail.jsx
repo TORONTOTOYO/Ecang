@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { formatDuration, getProjectCover, isCloudinaryVideoUrl } from "../content/reel.js";
+import { getProjectCover, isCloudinaryVideoUrl } from "../content/reel.js";
 import SafeImage from "./SafeImage.jsx";
 import Gallery from "./Gallery.jsx";
 
@@ -9,7 +9,6 @@ export default function ProjectDetail({ project, featured }) {
   const hasReel = isCloudinaryVideoUrl(reelUrl);
   const [tab, setTab] = useState(hasReel ? "reel" : "photos");
   const [photo, setPhoto] = useState(null);
-  const [duration, setDuration] = useState("");
   const [failed, setFailed] = useState(false);
   const [started, setStarted] = useState(false);
   const videoRef = useRef(null);
@@ -49,8 +48,6 @@ export default function ProjectDetail({ project, featured }) {
                 controls={started}
                 playsInline
                 preload="metadata"
-                onLoadedMetadata={(event) => setDuration(formatDuration(event.currentTarget.duration))}
-                onDurationChange={(event) => setDuration(formatDuration(event.currentTarget.duration))}
                 onPlay={() => setStarted(true)}
                 onError={() => setFailed(true)}
               />
@@ -59,13 +56,12 @@ export default function ProjectDetail({ project, featured }) {
                   videoRef.current?.play().catch(() => setFailed(true));
                 }}>▶</button>
               )}
-              {duration && !started && <span className="project-reel-duration">{duration}</span>}
             </div>
           </div>
           {failed ? <p className="project-reel-error" role="alert">This video could not be played. Please check the Cloudinary video URL.</p> : (
             <div className="project-reel-caption">
               <h3>{project.title}</h3>
-              <p>{[project.subtitle, duration].filter(Boolean).join(" · ")}</p>
+              <p>{project.subtitle}</p>
             </div>
           )}
         </section>
@@ -94,12 +90,11 @@ export default function ProjectDetail({ project, featured }) {
         <div className="project-detail-description">
           {(project.description || []).map((paragraph, i) => <p key={i}>{paragraph}</p>)}
         </div>
-        {(project.role || project.year || project.location || duration) && (
+        {(project.role || project.year || project.location) && (
           <dl className="project-detail-facts">
             {project.role && <><dt>Role</dt><dd>{project.role}</dd></>}
             {project.year && <><dt>Year</dt><dd>{project.year}</dd></>}
             {project.location && <><dt>Location</dt><dd>{project.location}</dd></>}
-            {duration && <><dt>Runtime</dt><dd>{duration}</dd></>}
           </dl>
         )}
       </div>
