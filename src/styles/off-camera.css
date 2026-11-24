@@ -86,84 +86,79 @@
   }
   
   .off-camera-layout {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
+    grid-template-columns: 1fr;
+    gap: 32px;
     max-width: 100%;
+    display: grid;
     position: relative;
-    min-height: 650px;
+    min-height: auto;
   }
   
   .off-camera-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: static;
+    transform: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: auto;
-    z-index: 10;
+    width: 100%;
   }
   
   .off-camera-center-image {
-    width: 180px;
-    height: 180px;
-    max-height: none;
+    width: min(240px, 90%);
+    max-height: 320px;
   }
   
   .off-camera-items {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: static;
+    transform: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px 16px;
+    justify-items: center;
     width: 100%;
-    height: 100%;
+    height: auto;
   }
   
   .off-camera-item {
-    position: absolute;
+    position: static;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
   }
   
-  /* Position items in a circle around the center */
-  .off-camera-item:nth-child(1) { top: -50px; left: 50%; transform: translateX(-50%); }
-  .off-camera-item:nth-child(2) { top: -20px; right: 15%; }
-  .off-camera-item:nth-child(3) { top: 20%; right: -15px; }
-  .off-camera-item:nth-child(4) { top: 50%; right: -50px; transform: translateY(-50%); }
-  .off-camera-item:nth-child(5) { bottom: 20%; right: -15px; }
-  .off-camera-item:nth-child(6) { bottom: -20px; right: 15%; }
-  .off-camera-item:nth-child(7) { bottom: -50px; left: 50%; transform: translateX(-50%); }
-  .off-camera-item:nth-child(8) { bottom: -20px; left: 15%; }
-  .off-camera-item:nth-child(9) { bottom: 20%; left: -15px; }
-  .off-camera-item:nth-child(10) { top: 50%; left: -50px; transform: translateY(-50%); }
-  .off-camera-item:nth-child(11) { top: 20%; left: -15px; }
-  .off-camera-item:nth-child(12) { top: -20px; left: 15%; }
+  .off-camera-item:nth-child(1) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(2) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(3) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(4) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(5) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(6) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(7) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(8) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(9) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(10) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(11) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .off-camera-item:nth-child(12) { all: unset; position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; }
   
   .off-camera-item-button {
-    width: 56px;
-    height: 56px;
-    padding: 10px;
-    border-radius: 13px;
-    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    padding: 11px;
+    border-radius: 15px;
+    font-size: 26px;
   }
   
   .off-camera-item-label {
     position: static;
     transform: none;
     width: 100%;
-    max-width: 80px;
-    padding: 3px 5px;
-    border-radius: 6px;
+    max-width: 90px;
+    padding: 4px 6px;
+    border-radius: 8px;
     background: var(--ink);
     color: var(--cream);
-    font-size: 9px;
-    line-height: 1.2;
+    font-size: 10px;
+    line-height: 1.25;
     text-align: center;
     overflow-wrap: break-word;
     visibility: visible;
