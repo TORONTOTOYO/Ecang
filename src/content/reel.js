@@ -14,11 +14,26 @@ export function getProjectCover(project) {
   const videoUrl = project.reelUrl?.trim();
   if (!isCloudinaryVideoUrl(videoUrl)) return "";
 
-  const url = new URL(videoUrl);
-  url.pathname = url.pathname
-    .replace(/(\/video\/upload\/)/i, "$1so_0/")
-    .replace(/(\.[^./]+)?$/, ".jpg");
-  return url.toString();
+  try {
+    const url = new URL(videoUrl);
+    // Insert so_0 transformation after /video/upload/
+    // This extracts the first frame of the video
+    const pathname = url.pathname;
+    const uploadIndex = pathname.search(/\/video\/upload\//i);
+    
+    if (uploadIndex === -1) return "";
+    
+    const beforeUpload = pathname.substring(0, uploadIndex + "/video/upload/".length);
+    const afterUpload = pathname.substring(uploadIndex + "/video/upload/".length);
+    
+    // Replace video extension with .jpg and add so_0 transformation
+    const newPath = beforeUpload + "so_0/" + afterUpload.replace(/\.[^.]+$/, ".jpg");
+    url.pathname = newPath;
+    
+    return url.toString();
+  } catch {
+    return "";
+  }
 }
 
 export function formatDuration(seconds) {

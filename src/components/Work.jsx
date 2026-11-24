@@ -27,7 +27,11 @@ export default function Work() {
       </div>
 
       <article className="work-featured">
-        <SafeImage className="work-featured-image" src={getProjectCover(featured)} alt={`${featured.title} cover photo`} index={0} />
+        {getProjectCover(featured) ? (
+          <SafeImage className="work-featured-image" src={getProjectCover(featured)} alt={`${featured.title} cover photo`} index={0} />
+        ) : (
+          <div className="work-featured-image work-featured-no-cover">No cover for this project</div>
+        )}
         <div className="work-featured-content">
           <span className="work-featured-label">Featured project</span>
           <h3>{featured.title}</h3>
@@ -47,7 +51,11 @@ export default function Work() {
           <Carousel label="More featured projects">
             {remaining.map((project, index) => (
               <article className="work-card" key={project.id}>
-                <SafeImage className="work-card-image" src={getProjectCover(project)} alt={`${project.title} cover photo`} index={index + 1} />
+                {getProjectCover(project) ? (
+                  <SafeImage className="work-card-image" src={getProjectCover(project)} alt={`${project.title} cover photo`} index={index + 1} />
+                ) : (
+                  <div className="work-card-image work-card-no-cover">No cover</div>
+                )}
                 <div className="work-card-body">
                   <h3>{project.title}</h3>
                   {project.role && <p className="work-card-meta">{[project.role, project.year].filter(Boolean).join(" · ")}</p>}
