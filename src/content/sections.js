@@ -2,7 +2,7 @@ export const SECTION_DEFINITIONS = [
   { id: "home", label: "Home introduction", navLabel: "Home", href: "#home" },
   { id: "about", label: "About me", navLabel: "About me", href: "#about" },
   { id: "work", label: "Projects", navLabel: "Projects", href: "#work" },
-  { id: "offCamera", label: "Erica's skill", navLabel: "Off camera", href: "#off-camera" },
+  { id: "offCamera", label: "Erica's skills", navLabel: "Skills", href: "#skills" },
   { id: "certifications", label: "Certifications", navLabel: "Certifications", href: "#certifications" },
   { id: "contact", label: "Contact" },
 ];

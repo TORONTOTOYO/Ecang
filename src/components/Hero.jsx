@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import CvLink from "./CvLink.jsx";
 import { useContent } from "../content/ContentContext.jsx";
 
 export default function Hero() {
@@ -19,7 +18,6 @@ export default function Hero() {
         <p className="intro">{profile.intro}</p>
         <div className="hero-buttons">
           <a href="#work" className="btn">See my work</a>
-          <CvLink className="btn-outline" />
         </div>
       </div>
 

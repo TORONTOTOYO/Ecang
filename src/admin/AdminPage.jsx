@@ -11,7 +11,6 @@ import ProjectsSection from "./sections/ProjectsSection.jsx";
 import OffCameraSection from "./sections/OffCameraSection.jsx";
 import { isCloudinaryVideoUrl } from "../content/reel.js";
 import CertificationsSection from "./sections/CertificationsSection.jsx";
-import CvSection from "./sections/CvSection.jsx";
 import ContactSection from "./sections/ContactSection.jsx";
 import SettingsSection from "./sections/SettingsSection.jsx";
 import AppearanceSection from "./sections/AppearanceSection.jsx";
@@ -24,9 +23,8 @@ import SessionWarning from "./SessionWarning.jsx";
 const TABS = [
   { id: "home", label: "Home and About", Section: HomeSection },
   { id: "projects", label: "Projects", Section: ProjectsSection },
-  { id: "offCamera", label: "Erica's skill", Section: OffCameraSection },
+  { id: "offCamera", label: "Erica's skills", Section: OffCameraSection },
   { id: "certs", label: "Certifications", Section: CertificationsSection },
-  { id: "cv", label: "CV", Section: CvSection },
   { id: "contact", label: "Contact", Section: ContactSection },
   { id: "appearance", label: "Appearance", Section: AppearanceSection },
   { id: "settings", label: "Settings", Section: SettingsSection },

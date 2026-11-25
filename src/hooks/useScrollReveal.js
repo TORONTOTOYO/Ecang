@@ -1,7 +1,7 @@
 import { useLayoutEffect } from "react";
 
 // Parts of the page that fade in when they scroll into view
-const TARGETS = ".about > div, .section-head, .card-row > .card, .carousel, .contact";
+const TARGETS = "section, .about > div, .section-head, .card-row > .card, .carousel, .contact";
 
 // Adds a soft fade-up to each target the first time it appears on screen.
 // "active" turns it on, and "refreshKey" re-checks when the content changes.

@@ -12,7 +12,7 @@ export default function Nav() {
   const hidden = {
     "#about": !sections.about,
     "#work": !sections.work || projects.length === 0,
-    "#off-camera": !sections.offCamera || (!offCamera.bagImage && !offCamera.items?.length),
+    "#skills": !sections.offCamera || (!offCamera.bagImage && !offCamera.items?.length),
     "#certifications": !sections.certifications || certifications.items.length === 0,
   };
   const firstSection = sectionOrder.find((id) => sections[id]);

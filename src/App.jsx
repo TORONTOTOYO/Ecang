@@ -3,10 +3,9 @@ import Nav from "./components/Nav.jsx";
 import Hero from "./components/Hero.jsx";
 import About from "./components/About.jsx";
 import Work from "./components/Work.jsx";
-import OffCamera from "./components/OffCamera.jsx";
+import Skills from "./components/Skills.jsx";
 import Certifications from "./components/Certifications.jsx";
 import Contact from "./components/Contact.jsx";
-import CvPage from "./components/CvPage.jsx";
 import Loader from "./components/Loader.jsx";
 import HomeSkeleton from "./components/HomeSkeleton.jsx";
 import { useContent, useContentReady } from "./content/ContentContext.jsx";
@@ -18,17 +17,15 @@ const AdminPage = lazy(() => import("./admin/AdminPage.jsx"));
 
 // How long the loading screen shows when switching pages (milliseconds)
 const LOADING_TIME = 800;
-const LOADING_LABELS = { cv: "Opening CV", home: "Back to portfolio", admin: "Opening admin" };
-const SECTION_COMPONENTS = { home: Hero, about: About, work: Work, offCamera: OffCamera, certifications: Certifications, contact: Contact };
+const LOADING_LABELS = { home: "Back to portfolio", admin: "Opening admin" };
+const SECTION_COMPONENTS = { home: Hero, about: About, work: Work, offCamera: Skills, certifications: Certifications, contact: Contact };
 
-// Pages, chosen by the URL hash: #/cv, #/admin, or anything else for the portfolio.
+// Pages, chosen by the URL hash: #/admin, or anything else for the portfolio.
 function getPage(initialPage = "home") {
   if (typeof window === "undefined") return initialPage;
   const hash = window.location.hash;
-  if (hash === "#/cv") return "cv";
   if (hash === "#/admin") return "admin";
   const path = window.location.pathname.replace(/\/+$/, "") || "/";
-  if (path === "/cv") return "cv";
   if (path === "/admin") return "admin";
   return "home";
 }
@@ -106,15 +103,6 @@ export default function App({ initialPage, initialMode } = {}) {
 
   // Use a page-shaped skeleton while first-visit content loads.
   if (!contentReady) return page === "home" ? <HomeSkeleton /> : <Loader label="Loading" />;
-
-  if (page === "cv") {
-    return (
-      <>
-        <CvPage />
-        {loader}
-      </>
-    );
-  }
 
   return (
     <>

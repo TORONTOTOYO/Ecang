@@ -15,10 +15,8 @@ try {
 }
 
 function routeFromLocation() {
-  if (window.location.hash === "#/cv") return "cv";
   if (window.location.hash === "#/admin") return "admin";
   const path = window.location.pathname.replace(/\/+$/, "") || "/";
-  if (path === "/cv") return "cv";
   if (path === "/admin") return "admin";
   return "home";
 }
